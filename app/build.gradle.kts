@@ -41,16 +41,27 @@ android {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
-
 }
 
 dependencies {
+
+  kapt(deps.kapt.dagger)
+
+
     implementation(deps.kotlin.stdlib.core)
     implementation(deps.android.androidx.appcompat)
     implementation(deps.android.androidx.corektx)
     implementation(deps.android.androidx.constraintLayout)
     implementation(deps.android.androidx.material)
     implementation(deps.reporting.timber)
+
+      implementation(deps.networking.retrofit)
+      implementation(deps.networking.retrofitGson)
+      implementation(deps.networking.retrofitRx2)
+        implementation(deps.networking.okhttp)
+        implementation(deps.networking.okhttpLogging)
+
+    implementation(deps.dagger.core)
 
     debugImplementation(deps.util.flipper.core)
     debugImplementation(deps.util.flipper.flipperSO)

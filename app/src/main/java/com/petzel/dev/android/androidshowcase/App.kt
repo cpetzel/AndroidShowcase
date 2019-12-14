@@ -10,19 +10,25 @@ import com.facebook.flipper.plugins.inspector.InspectorFlipperPlugin
 import com.facebook.flipper.plugins.sharedpreferences.SharedPreferencesFlipperPlugin
 import com.facebook.soloader.SoLoader
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin;
+import com.petzel.dev.android.androidshowcase.di.AppComponent
+import com.petzel.dev.android.androidshowcase.di.DaggerAppComponent
 import timber.log.Timber
 
 
 class App : Application() {
 
+    lateinit var appComponent: AppComponent
+
     override fun onCreate() {
         super.onCreate()
-        initFlipper()
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
         Timber.d("HELLO")
+
+        appComponent = DaggerAppComponent.builder().application(this).build()
+        initFlipper()
     }
 
 
@@ -31,16 +37,12 @@ class App : Application() {
         if (!FlipperUtils.shouldEnableFlipper(this)) {
             return
         }
-        val client = AndroidFlipperClient.getInstance(this)
 
-        client.addPlugin(InspectorFlipperPlugin(this, DescriptorMapping.withDefaults()))
-        client.addPlugin(DatabasesFlipperPlugin(this))
-        client.addPlugin(SharedPreferencesFlipperPlugin(this))
-        client.addPlugin(CrashReporterPlugin.getInstance())
+        appComponent.flipperClient().start()
 
-        val networkFlipperPlugin = NetworkFlipperPlugin()
-        client.addPlugin(networkFlipperPlugin)
-        client.start()
+//        client.start()
+
+
     }
 
 }
