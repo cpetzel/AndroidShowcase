@@ -197,7 +197,16 @@ object deps {
         const val joda = "net.danlew:android.joda:2.9.9.4"
         const val stetho = "com.facebook.stetho:stetho:1.5.0"
         const val stethoOkHttp = "com.facebook.stetho:stetho-okhttp3:1.5.0"
+
+        object flipper {
+            const val core = "com.facebook.flipper:flipper:0.30.1"
+            const val flipperRelease = "com.facebook.flipper:flipper-noop:0.30.1"
+            const val flipperSO = "com.facebook.soloader:soloader:0.5.1"
+            const val flipperNetwork = "com.facebook.flipper:flipper-network-plugin:0.30.1"
+        }
     }
+
+
 
     object debug {
         const val chuck = "com.readystatesoftware.chuck:library:1.1.0"

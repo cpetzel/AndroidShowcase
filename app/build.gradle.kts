@@ -50,7 +50,13 @@ dependencies {
     implementation(deps.android.androidx.corektx)
     implementation(deps.android.androidx.constraintLayout)
     implementation(deps.android.androidx.material)
+    implementation(deps.reporting.timber)
 
+    debugImplementation(deps.util.flipper.core)
+    debugImplementation(deps.util.flipper.flipperSO)
+    debugImplementation(deps.util.flipper.flipperNetwork)
+
+    releaseImplementation(deps.util.flipper.flipperRelease)
 
     testImplementation(deps.test.junit)
 }
