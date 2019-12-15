@@ -24,10 +24,10 @@ android {
             proguardFiles("proguard-android.txt")
             isMinifyEnabled = true
             isShrinkResources = true
-            setCrunchPngs(true)
+            isCrunchPngs = true
 
             // Set false to use R8
-            setUseProguard(true)
+            isUseProguard = true
         }
 
         getByName("debug") {
@@ -45,8 +45,7 @@ android {
 
 dependencies {
 
-  kapt(deps.kapt.dagger)
-
+    kapt(deps.kapt.dagger)
 
     implementation(deps.kotlin.stdlib.core)
     implementation(deps.android.androidx.appcompat)
@@ -54,13 +53,11 @@ dependencies {
     implementation(deps.android.androidx.constraintLayout)
     implementation(deps.android.androidx.material)
     implementation(deps.reporting.timber)
-
-      implementation(deps.networking.retrofit)
-      implementation(deps.networking.retrofitGson)
-      implementation(deps.networking.retrofitRx2)
-        implementation(deps.networking.okhttp)
-        implementation(deps.networking.okhttpLogging)
-
+    implementation(deps.networking.retrofit)
+    implementation(deps.networking.retrofitGson)
+    implementation(deps.networking.retrofitRx2)
+    implementation(deps.networking.okhttp)
+    implementation(deps.networking.okhttpLogging)
     implementation(deps.dagger.core)
 
     debugImplementation(deps.util.flipper.core)
