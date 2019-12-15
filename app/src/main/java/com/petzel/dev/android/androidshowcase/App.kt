@@ -5,10 +5,8 @@ import com.facebook.flipper.android.utils.FlipperUtils
 import com.facebook.soloader.SoLoader
 import com.petzel.dev.android.androidshowcase.di.AppComponent
 import com.petzel.dev.android.androidshowcase.di.DaggerAppComponent
-import com.petzel.dev.android.androidshowcase.repository.GitHubRepo
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import es.dmoral.toasty.Toasty
+import io.reactivex.plugins.RxJavaPlugins
 import timber.log.Timber
 
 class App : Application() {
@@ -24,7 +22,14 @@ class App : Application() {
         Timber.d("HELLO")
 
         appComponent = DaggerAppComponent.builder().application(this).build()
+        RxJavaPlugins.setErrorHandler { e ->
+            appComponent.mainHandler().post {
+                Timber.e(e)
+                Toasty.error(this, e.message!!).show()
+            }
+        }
         initFlipper()
+
     }
 
 
@@ -35,18 +40,7 @@ class App : Application() {
         }
 
         appComponent.flipperClient().start()
-        appComponent.redditClient().reposForUser("cpetzel")
-            .enqueue(object : Callback<List<GitHubRepo>> {
-                override fun onFailure(call: Call<List<GitHubRepo>>, t: Throwable) {
-                }
-
-                override fun onResponse(
-                    call: Call<List<GitHubRepo>>,
-                    response: Response<List<GitHubRepo>>
-                ) {
-                    Timber.d("got list $response")
-                }
-            })
     }
+
 
 }

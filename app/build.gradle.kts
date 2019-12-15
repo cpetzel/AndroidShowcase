@@ -46,8 +46,18 @@ android {
 dependencies {
 
     kapt(deps.kapt.dagger)
+    kapt(deps.kapt.room)
+
+    implementation(deps.rx.autodispose)
+    implementation(deps.rx.autodisposeAndroidKotlin)
+    implementation(deps.rx.autodisposeArch)
+    implementation(deps.rx.autodisposeKotlin)
+    implementation(deps.rx.autodisposeLifecycle)
+    implementation(deps.rx.autodisposeLifecycleKotlin)
 
     implementation(deps.kotlin.stdlib.core)
+    implementation(deps.android.androidx.navFragment)
+    implementation(deps.android.androidx.navUi)
     implementation(deps.android.androidx.appcompat)
     implementation(deps.android.androidx.corektx)
     implementation(deps.android.androidx.constraintLayout)
@@ -59,6 +69,11 @@ dependencies {
     implementation(deps.networking.okhttp)
     implementation(deps.networking.okhttpLogging)
     implementation(deps.dagger.core)
+    implementation(deps.android.androidx.room)
+    implementation(deps.android.androidx.roomRx)
+    implementation(deps.ui.snacky)
+    implementation(deps.ui.toasty)
+    implementation(deps.rxBinding.core)
 
     debugImplementation(deps.util.flipper.core)
     debugImplementation(deps.util.flipper.flipperSO)

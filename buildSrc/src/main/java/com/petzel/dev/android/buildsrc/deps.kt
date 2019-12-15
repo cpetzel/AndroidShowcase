@@ -19,6 +19,8 @@ object deps {
         const val retrofitVersion = "2.5.0"
         const val rxBindingsVersion2 = "2.2.0"
         const val rxBindingsVersion3 = "3.0.0"
+        const val room = "2.2.2"
+        const val navigation = "1.0.0"
     }
 
     object android {
@@ -45,6 +47,14 @@ object deps {
             const val v4 = "androidx.legacy:legacy-support-v4:${versions.androidxVersion}"
             const val workRuntime = "android.arch.work:work-runtime:1.0.0-rc02"
             const val workRxJava2 = "android.arch.work:work-rxjava2:1.0.0-rc02"
+
+            const val navFragment =
+                "android.arch.navigation:navigation-fragment-ktx:${versions.navigation}"
+            const val navUi = "android.arch.navigation:navigation-ui-ktx:${versions.navigation}"
+
+
+            const val room = "androidx.room:room-runtime:${versions.room}"
+            const val roomRx = "androidx.room:room-rxjava2:${versions.room}"
 
             object test {
                 const val androidTestCore = "androidx.test:core:1.1.0"
@@ -104,6 +114,7 @@ object deps {
     object kapt {
         const val autoFactory = "com.google.auto.factory:auto-factory:1.0-beta6"
         const val dagger = "com.google.dagger:dagger-compiler:${versions.dagger}"
+        const val room = "androidx.room:room-compiler:${versions.room}"
     }
 
     object rxBinding {
@@ -205,7 +216,6 @@ object deps {
             const val flipperNetwork = "com.facebook.flipper:flipper-network-plugin:0.30.1"
         }
     }
-
 
 
     object debug {
