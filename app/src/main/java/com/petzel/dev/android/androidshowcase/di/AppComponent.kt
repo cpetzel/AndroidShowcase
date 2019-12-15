@@ -2,6 +2,7 @@ package com.petzel.dev.android.androidshowcase.di
 
 import android.app.Application
 import com.facebook.flipper.core.FlipperClient
+import com.petzel.dev.android.androidshowcase.repository.RedditClient
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -11,6 +12,8 @@ import javax.inject.Singleton
 interface AppComponent {
 
     fun flipperClient(): FlipperClient
+
+    fun redditClient(): RedditClient
 
     @Component.Builder
     interface Builder {
