@@ -2,9 +2,11 @@ package com.petzel.dev.android.androidshowcase
 
 import android.app.Application
 import com.facebook.flipper.android.utils.FlipperUtils
+import com.facebook.flipper.plugins.leakcanary.RecordLeakService
 import com.facebook.soloader.SoLoader
 import com.petzel.dev.android.androidshowcase.di.AppComponent
 import com.petzel.dev.android.androidshowcase.di.DaggerAppComponent
+import com.squareup.leakcanary.LeakCanary
 import es.dmoral.toasty.Toasty
 import io.reactivex.plugins.RxJavaPlugins
 import timber.log.Timber
@@ -18,8 +20,14 @@ class App : Application() {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
+            // Leak detector
+            if (LeakCanary.isInAnalyzerProcess(this)) {
+                return
+            }
+            LeakCanary.refWatcher(this)
+                .listenerServiceClass(RecordLeakService::class.java)
+                .buildAndInstall()
         }
-        Timber.d("HELLO")
 
         appComponent = DaggerAppComponent.builder().application(this).build()
         RxJavaPlugins.setErrorHandler { e ->
@@ -29,18 +37,14 @@ class App : Application() {
             }
         }
         initFlipper()
-
     }
 
-
     private fun initFlipper() {
-        SoLoader.init(this, false)
         if (!FlipperUtils.shouldEnableFlipper(this)) {
             return
         }
-
+        SoLoader.init(this, false)
         appComponent.flipperClient().start()
     }
-
 
 }

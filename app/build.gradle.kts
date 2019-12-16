@@ -81,6 +81,10 @@ dependencies {
     debugImplementation(deps.util.flipper.flipperSO)
     debugImplementation(deps.util.flipper.flipperNetwork)
 
+    debugImplementation(deps.debug.leakCanaryDebug)
+    debugImplementation(deps.debug.leakCanaryFlipper)
+    releaseImplementation(deps.debug.leakCanaryRelease)
+
     releaseImplementation(deps.util.flipper.flipperRelease)
 
     testImplementation(deps.test.junit)

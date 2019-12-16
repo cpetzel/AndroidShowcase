@@ -225,6 +225,7 @@ object deps {
         const val chuck = "com.readystatesoftware.chuck:library:1.1.0"
         const val leakCanaryDebug = "com.squareup.leakcanary:leakcanary-android:1.5.3"
         const val leakCanaryRelease = "com.squareup.leakcanary:leakcanary-android-no-op:1.5.3"
+        const val leakCanaryFlipper = "com.facebook.flipper:flipper-leakcanary-plugin:0.30.1"
     }
 
     object test {
