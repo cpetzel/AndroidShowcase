@@ -9,7 +9,7 @@ interface PostDao {
     @Query("select * from databasepost")
     fun getPosts(): Observable<List<DatabasePost>>
 
-    @Query("select * from databasepost WHERE subreddit  = :subreddit")
+    @Query("select * from databasepost WHERE subreddit COLLATE NOCASE = :subreddit")
     fun getPosts(subreddit: String): Observable<List<DatabasePost>>
 
     // toto get post for single subreddit

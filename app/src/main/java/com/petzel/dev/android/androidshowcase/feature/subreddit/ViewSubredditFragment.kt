@@ -44,13 +44,12 @@ class ViewSubredditFragment : BaseFragment(), ViewSubredditController {
         // todo inject this
         presenter = ViewSubredditPresenter(
             this,
-            ViewModelProviders.of(this).get(ViewSubredditViewModel::class.java),
             this,
-            navigator,
-            postRepository
+//            ViewModelProviders.of(this).get(ViewSubredditViewModel::class.java),
+            postRepository,
+            subreddit!!
         )
 
-        presenter.loadSubreddit(subreddit!!)
     }
 
     override fun onCreateView(
