@@ -26,6 +26,7 @@ interface AppComponent {
     fun db(): PostsDatabase
     fun redditApi(): RedditApi
     fun mainHandler(): Handler
+    fun navigator(): Navigator
 
 
     fun inject(baseFragment: BaseFragment)

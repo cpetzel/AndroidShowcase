@@ -1,14 +1,27 @@
 package com.petzel.dev.android.androidshowcase.feature.select
 
-import androidx.lifecycle.LifecycleObserver
 import com.petzel.dev.android.androidshowcase.core.Navigator
+import com.petzel.dev.android.androidshowcase.di.PerFragment
+import com.uber.autodispose.ScopeProvider
+import com.uber.autodispose.autoDisposable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import javax.inject.Inject
 
 
-class SelectSubredditPresenter(
-    private val navigator: Navigator
-) : LifecycleObserver {
+interface SelectSubredditPresenter
 
-    fun onSubredditSelected(subreddit: String) {
-        navigator.goToViewSubreddit(subreddit)
+@PerFragment
+class SelectSubredditPresenterImpl @Inject constructor(
+    scope: ScopeProvider,
+    selectSubredditSelectUi: SubredditSelectUi,
+    navigator: Navigator
+) : SelectSubredditPresenter {
+    init {
+        selectSubredditSelectUi.subredditSelectedClicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDisposable(scope)
+            .subscribe {
+                navigator.goToViewSubreddit(it)
+            }
     }
 }
