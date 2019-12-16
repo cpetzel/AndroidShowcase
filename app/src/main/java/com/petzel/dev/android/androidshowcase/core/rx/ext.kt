@@ -1,4 +1,4 @@
-package com.petzel.dev.android.androidshowcase.rx
+package com.petzel.dev.android.androidshowcase.core.rx
 
 import android.view.View
 import com.jakewharton.rxbinding3.view.clicks

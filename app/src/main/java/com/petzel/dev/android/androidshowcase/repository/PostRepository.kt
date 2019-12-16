@@ -15,7 +15,19 @@ class PostRepository @Inject constructor(
     private val redditApi: RedditApi
 ) {
 
-    val posts: Observable<List<Post>> = database.postDao.getPosts().map { it.asDomainModel() }
+    val posts: Observable<List<Post>> = database.postDao.getPosts()
+        .map { it.asDomainModel() }
+        .doOnNext {
+            Timber.d("PostRepository DAO now have ${it.size} items")
+        }
+
+    fun getSubredditPosts(subreddit: String): Observable<List<Post>> {
+        return database.postDao.getPosts(subreddit)
+            .map { it.asDomainModel() }
+            .doOnNext {
+                Timber.d("PostRepository DAO now have ${it.size} items")
+            }
+    }
 
     fun refreshPostsForSubreddit(subreddit: String): Completable {
         Timber.d("refreshPostsForSubreddit")

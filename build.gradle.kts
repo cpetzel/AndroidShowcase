@@ -1,4 +1,3 @@
-
 buildscript {
     repositories {
         google()
@@ -8,6 +7,7 @@ buildscript {
         classpath(deps.gradlePlugins.gradle)
         classpath(deps.gradlePlugins.junit)
         classpath(deps.gradlePlugins.kotlin)
+        classpath(deps.gradlePlugins.navArgs)
     }
 }
 

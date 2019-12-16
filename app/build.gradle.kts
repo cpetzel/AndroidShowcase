@@ -3,6 +3,7 @@ plugins {
     kotlin("android")
     kotlin("android.extensions")
     kotlin("kapt")
+    id("androidx.navigation.safeargs.kotlin")
 }
 
 android {
@@ -56,6 +57,7 @@ dependencies {
     implementation(deps.rx.autodisposeLifecycleKotlin)
 
     implementation(deps.kotlin.stdlib.core)
+    implementation(deps.android.androidx.arch)
     implementation(deps.android.androidx.navFragment)
     implementation(deps.android.androidx.navUi)
     implementation(deps.android.androidx.appcompat)

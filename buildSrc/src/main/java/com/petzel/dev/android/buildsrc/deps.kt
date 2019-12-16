@@ -21,6 +21,7 @@ object deps {
         const val rxBindingsVersion3 = "3.0.0"
         const val room = "2.2.2"
         const val navigation = "1.0.0"
+        const val navAgrs = "2.1.0"
     }
 
     object android {
@@ -90,6 +91,8 @@ object deps {
         const val gradle = "com.android.tools.build:gradle:3.4.0"
         const val junit = "de.mannodermaus.gradle.plugins:android-junit5:1.4.0.0"
         const val kotlin = "org.jetbrains.kotlin:kotlin-gradle-plugin:${versions.kotlin}"
+        const val navArgs =
+            "androidx.navigation:navigation-safe-args-gradle-plugin:${versions.navAgrs}"
     }
 
     object dagger {

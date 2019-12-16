@@ -9,6 +9,9 @@ interface PostDao {
     @Query("select * from databasepost")
     fun getPosts(): Observable<List<DatabasePost>>
 
+    @Query("select * from databasepost WHERE subreddit  = :subreddit")
+    fun getPosts(subreddit: String): Observable<List<DatabasePost>>
+
     // toto get post for single subreddit
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(posts: List<DatabasePost>)
