@@ -44,24 +44,12 @@ object deps {
             const val pagingRuntime = "androidx.paging:paging-runtime:2.1.0"
             const val recyclerView =
                 "androidx.recyclerview:recyclerview:${versions.androidxVersion}"
-            const val v13 = "androidx.legacy:legacy-support-v13:${versions.androidxVersion}"
-            const val v4 = "androidx.legacy:legacy-support-v4:${versions.androidxVersion}"
-            const val workRuntime = "android.arch.work:work-runtime:1.0.0-rc02"
-            const val workRxJava2 = "android.arch.work:work-rxjava2:1.0.0-rc02"
-
             const val navFragment =
                 "android.arch.navigation:navigation-fragment-ktx:${versions.navigation}"
             const val navUi = "android.arch.navigation:navigation-ui-ktx:${versions.navigation}"
 
-
             const val room = "androidx.room:room-runtime:${versions.room}"
             const val roomRx = "androidx.room:room-rxjava2:${versions.room}"
-
-            object test {
-                const val androidTestCore = "androidx.test:core:1.1.0"
-                const val androidTestRules = "androidx.test:rules:1.1.0"
-                const val androidTestExt = "androidx.test.ext:junit:1.1.0"
-            }
         }
 
         object build {

@@ -1,23 +1,34 @@
 package com.petzel.dev.android.androidshowcase.feature.subreddit
 
 import androidx.fragment.app.FragmentActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.petzel.dev.android.androidshowcase.AppUi
 import com.petzel.dev.android.androidshowcase.Ui
 import com.petzel.dev.android.androidshowcase.domain.Post
-import de.mateware.snacky.Snacky
+import io.reactivex.Observable
+import kotlinx.android.synthetic.main.fragment_view_subreddit.*
 import javax.inject.Inject
 
 interface ViewSubredditUi : Ui {
     fun showPosts(posts: List<Post>)
+    fun postClicks(): Observable<Post>
 }
 
-class ViewSubredditUiImpl @Inject constructor(val activity: FragmentActivity) : AppUi(activity),
-    ViewSubredditUi {
+class ViewSubredditUiImpl @Inject constructor(
+    activity: FragmentActivity,
+    private val postAdapter: PostAdapter
+) : AppUi(activity), ViewSubredditUi {
+
+    init {
+        activity.recyclerView.layoutManager = LinearLayoutManager(activity)
+        activity.recyclerView.itemAnimator = DefaultItemAnimator()
+        activity.recyclerView.adapter = postAdapter
+    }
 
     override fun showPosts(posts: List<Post>) {
-        activity.runOnUiThread {
-            Snacky.builder().setActivity(activity).setText("will show ${posts.size}").info()
-                .show()
-        }
+        postAdapter.setItems(posts)
     }
+
+    override fun postClicks() = postAdapter.postClicks
 }

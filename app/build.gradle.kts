@@ -64,6 +64,8 @@ dependencies {
     implementation(deps.android.androidx.corektx)
     implementation(deps.android.androidx.constraintLayout)
     implementation(deps.android.androidx.material)
+    implementation(deps.android.androidx.recyclerView)
+    implementation(deps.android.androidx.paging)
     implementation(deps.reporting.timber)
     implementation(deps.networking.retrofit)
     implementation(deps.networking.retrofitGson)
@@ -75,6 +77,7 @@ dependencies {
     implementation(deps.android.androidx.roomRx)
     implementation(deps.ui.snacky)
     implementation(deps.ui.toasty)
+    implementation(deps.ui.glide)
     implementation(deps.ui.materialProgressBar)
     implementation(deps.rxBinding.core)
 
