@@ -3,8 +3,9 @@ package com.petzel.dev.android.androidshowcase.di
 import android.app.Application
 import android.os.Handler
 import com.facebook.flipper.core.FlipperClient
-import com.petzel.dev.android.androidshowcase.core.BaseFragment
-import com.petzel.dev.android.androidshowcase.core.Navigator
+import com.petzel.dev.android.androidshowcase.MainActivity
+import com.petzel.dev.android.androidshowcase.MainActivityComponent
+import com.petzel.dev.android.androidshowcase.NavigationModule
 import com.petzel.dev.android.androidshowcase.database.PostsDatabase
 import com.petzel.dev.android.androidshowcase.repository.RedditApi
 import dagger.BindsInstance
@@ -26,20 +27,12 @@ interface AppComponent {
     fun db(): PostsDatabase
     fun redditApi(): RedditApi
     fun mainHandler(): Handler
-    fun navigator(): Navigator
 
+    fun mainActivityComponentFactory(): MainActivityComponent.Factory
 
-    fun inject(baseFragment: BaseFragment)
-
-    @Component.Builder
-    interface Builder {
-        fun build(): AppComponent
-
-        // @BindsInstance replaces Builder appModule(AppModule appModule)
-        // And removes Constructor with Application AppModule(Application)
-
-        @BindsInstance
-        fun application(application: Application): Builder
+    @Component.Factory
+    interface Factory {
+        fun create(@BindsInstance application: Application): AppComponent
     }
 
 }

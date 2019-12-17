@@ -29,7 +29,8 @@ class App : Application() {
                 .buildAndInstall()
         }
 
-        appComponent = DaggerAppComponent.builder().application(this).build()
+        appComponent = DaggerAppComponent.factory().create(this)
+
         RxJavaPlugins.setErrorHandler { e ->
             appComponent.mainHandler().post {
                 Timber.e(e)

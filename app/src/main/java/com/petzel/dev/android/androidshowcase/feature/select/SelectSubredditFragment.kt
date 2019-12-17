@@ -4,35 +4,25 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.FragmentActivity
-import com.petzel.dev.android.androidshowcase.App
+import com.petzel.dev.android.androidshowcase.MainActivity
 import com.petzel.dev.android.androidshowcase.R
 import com.petzel.dev.android.androidshowcase.core.BaseFragment
-import com.petzel.dev.android.androidshowcase.di.AppComponent
 import com.petzel.dev.android.androidshowcase.di.PerFragment
 import com.uber.autodispose.ScopeProvider
-import com.uber.autodispose.android.lifecycle.scope
 import dagger.*
-import de.mateware.snacky.Snacky
 import timber.log.Timber
 import javax.inject.Inject
 
-class SelectSubredditFragment : BaseFragment(), SelectSubredditController {
+class SelectSubredditFragment : BaseFragment() {
 
     @Inject
     lateinit var presenter: SelectSubredditPresenter
-
-    override fun showError(error: String) {
-        handler.post { Snacky.builder().setActivity(activity!!).setText(error).error().show() }
-    }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Timber.d("onCreate")
 
-        DaggerSelectSubredditFragment_SelectSubredditFragmentComponent.factory()
-            .create((activity!!.application as App).appComponent, activity!!)
+        (activity!! as MainActivity).activityComponent!!.selectSubredditFactory().create(this)
             .inject(this)
     }
 
@@ -43,7 +33,6 @@ class SelectSubredditFragment : BaseFragment(), SelectSubredditController {
     ): View? {
         return inflater.inflate(R.layout.fragment_select_subreddit, container, false)
     }
-
 
     @Module
     abstract class SelectSubredditModule {
@@ -59,21 +48,19 @@ class SelectSubredditFragment : BaseFragment(), SelectSubredditController {
             @PerFragment
             @Provides
             @JvmStatic
-            fun scopeProvider(activity: FragmentActivity): ScopeProvider = activity.scope()
+            fun scopeProvider(fragment: BaseFragment): ScopeProvider = fragment.scopeProvider
         }
     }
 
     @PerFragment
-    @Component(
-        dependencies = [AppComponent::class],
+    @Subcomponent(
         modules = [SelectSubredditModule::class]
     )
     interface SelectSubredditFragmentComponent {
-        @Component.Factory
+        @Subcomponent.Factory
         interface Factory {
             fun create(
-                mainComponent: AppComponent,
-                @BindsInstance activity: FragmentActivity
+                @BindsInstance fragment: BaseFragment
             ): SelectSubredditFragmentComponent
         }
 

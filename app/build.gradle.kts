@@ -75,6 +75,7 @@ dependencies {
     implementation(deps.android.androidx.roomRx)
     implementation(deps.ui.snacky)
     implementation(deps.ui.toasty)
+    implementation(deps.ui.materialProgressBar)
     implementation(deps.rxBinding.core)
 
     debugImplementation(deps.util.flipper.core)
