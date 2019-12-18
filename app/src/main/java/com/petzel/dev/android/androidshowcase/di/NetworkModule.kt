@@ -1,7 +1,9 @@
 package com.petzel.dev.android.androidshowcase.di
 
+import android.app.Application
 import com.facebook.flipper.plugins.network.FlipperOkhttpInterceptor
 import com.facebook.flipper.plugins.network.NetworkFlipperPlugin
+import com.readystatesoftware.chuck.ChuckInterceptor
 import dagger.Module
 import dagger.Provides
 import okhttp3.OkHttpClient
@@ -17,13 +19,15 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun provideOkhttp(networkFlipperPlugin: NetworkFlipperPlugin): OkHttpClient {
+    fun provideOkhttp(networkFlipperPlugin: NetworkFlipperPlugin, app: Application): OkHttpClient {
         val logging = (HttpLoggingInterceptor())
             .apply { level = HttpLoggingInterceptor.Level.BASIC }
+
 
         return (OkHttpClient.Builder()).apply {
             addInterceptor(FlipperOkhttpInterceptor(networkFlipperPlugin))
             addInterceptor(logging)
+            addInterceptor(ChuckInterceptor(app))
         }.build()
     }
 
