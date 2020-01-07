@@ -10,7 +10,6 @@ import com.petzel.dev.android.androidshowcase.di.PerFragment
 import com.petzel.dev.android.androidshowcase.domain.Subreddit
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.item_reddit_post.view.*
 import kotlinx.android.synthetic.main.item_subreddit.view.*
 import javax.inject.Inject
 

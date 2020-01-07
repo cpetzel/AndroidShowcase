@@ -2,13 +2,8 @@ package com.petzel.dev.android.androidshowcase.feature.feed
 
 import com.petzel.dev.android.androidshowcase.core.Navigator
 import com.petzel.dev.android.androidshowcase.di.PerFragment
-import com.petzel.dev.android.androidshowcase.feature.managesubreddit.ManageSubredditsPresenter
-import com.petzel.dev.android.androidshowcase.feature.managesubreddit.ManageSubredditsUi
-import com.petzel.dev.android.androidshowcase.feature.select.SelectSubredditPresenter
-import com.petzel.dev.android.androidshowcase.feature.select.SubredditSelectUi
 import com.petzel.dev.android.androidshowcase.feature.subreddit.ViewPostsUi
 import com.petzel.dev.android.androidshowcase.repository.PostRepository
-import com.petzel.dev.android.androidshowcase.repository.SubredditsRepository
 import com.uber.autodispose.ScopeProvider
 import com.uber.autodispose.autoDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers

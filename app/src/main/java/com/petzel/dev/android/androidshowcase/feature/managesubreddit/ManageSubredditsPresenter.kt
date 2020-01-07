@@ -2,8 +2,6 @@ package com.petzel.dev.android.androidshowcase.feature.managesubreddit
 
 import com.petzel.dev.android.androidshowcase.core.Navigator
 import com.petzel.dev.android.androidshowcase.di.PerFragment
-import com.petzel.dev.android.androidshowcase.feature.select.SelectSubredditPresenter
-import com.petzel.dev.android.androidshowcase.feature.select.SubredditSelectUi
 import com.petzel.dev.android.androidshowcase.repository.SubredditsRepository
 import com.uber.autodispose.ScopeProvider
 import com.uber.autodispose.autoDisposable

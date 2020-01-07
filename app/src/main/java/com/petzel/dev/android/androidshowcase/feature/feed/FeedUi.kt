@@ -9,8 +9,6 @@ import com.petzel.dev.android.androidshowcase.domain.Post
 import com.petzel.dev.android.androidshowcase.feature.subreddit.PostAdapter
 import com.petzel.dev.android.androidshowcase.feature.subreddit.ViewPostsUiImpl
 import io.reactivex.Observable
-import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.fragment_view_feed.*
 import javax.inject.Inject
 
 

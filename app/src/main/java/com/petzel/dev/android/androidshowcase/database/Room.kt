@@ -1,7 +1,6 @@
 package com.petzel.dev.android.androidshowcase.database
 
 import androidx.room.*
-import com.petzel.dev.android.androidshowcase.domain.Subreddit
 import io.reactivex.Observable
 import java.util.*
 

@@ -9,9 +9,6 @@ import com.petzel.dev.android.androidshowcase.MainActivity
 import com.petzel.dev.android.androidshowcase.R
 import com.petzel.dev.android.androidshowcase.core.BaseFragment
 import com.petzel.dev.android.androidshowcase.di.PerFragment
-import com.petzel.dev.android.androidshowcase.feature.managesubreddit.*
-import com.petzel.dev.android.androidshowcase.feature.managesubreddit.ManageSubredditsPresenter
-import com.petzel.dev.android.androidshowcase.feature.managesubreddit.ManageSubredditsPresenterImpl
 import com.petzel.dev.android.androidshowcase.feature.subreddit.ViewPostsUi
 import com.petzel.dev.android.androidshowcase.feature.subreddit.ViewPostsUiImpl
 import com.uber.autodispose.ScopeProvider

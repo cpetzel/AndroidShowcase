@@ -3,9 +3,7 @@ package com.petzel.dev.android.androidshowcase.di
 import android.app.Application
 import android.os.Handler
 import com.facebook.flipper.core.FlipperClient
-import com.petzel.dev.android.androidshowcase.MainActivity
 import com.petzel.dev.android.androidshowcase.MainActivityComponent
-import com.petzel.dev.android.androidshowcase.NavigationModule
 import com.petzel.dev.android.androidshowcase.database.PostsDatabase
 import com.petzel.dev.android.androidshowcase.repository.RedditApi
 import dagger.BindsInstance
