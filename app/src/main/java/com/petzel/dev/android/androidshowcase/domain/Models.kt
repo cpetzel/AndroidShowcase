@@ -29,3 +29,14 @@ data class Post(
 //    val shortDescription: String
 //        get() = description.smartTruncate(200)
 }
+
+
+/**
+ * Represents a Subreddit
+ */
+data class Subreddit(
+    val name: String
+) {
+    val url: String
+        get() = "www.reddit.com/r/$name"
+}

@@ -23,18 +23,20 @@
     <fragment
         android:id="@+id/selectSubreddit"
         android:name="com.petzel.dev.android.androidshowcase.feature.select.SelectSubredditFragment"
-        android:label="fragment_select"
+        android:label="Select Subreddit"
         tools:layout="@layout/fragment_select_subreddit">
+
         <action
             android:id="@+id/viewSubredditAction"
             app:destination="@id/viewSubredditFragment" />
     </fragment>
 
+
     <fragment
         android:id="@+id/viewSubredditFragment"
         android:name="com.petzel.dev.android.androidshowcase.feature.subreddit.ViewSubredditFragment"
-        android:label="fragment_view_subreddit"
-        tools:layout="@layout/fragment_view_subreddit" >
+        android:label="{subreddit}"
+        tools:layout="@layout/fragment_view_subreddit">
         <argument
             android:name="subreddit"
             app:argType="string" />
