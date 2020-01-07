@@ -21,6 +21,8 @@ class PostAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView.View
     private val rowClicksSubject = PublishSubject.create<Post>()
     private val data = mutableListOf<Post>()
 
+    private var showSubredditSource = false
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostListViewHolder {
         LayoutInflater.from(parent.context).also {
             val view = it.inflate(R.layout.item_reddit_post, parent, false)
@@ -36,7 +38,14 @@ class PostAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView.View
             Glide.with(this).load(item.thumbnail).into(postImage)
             postTitle.text = item.title
             postDescription.text = item.description
+            postSubreddit.text = "/r/${item.subreddit}"
+            postSubreddit.visibility = if (showSubredditSource) View.VISIBLE else View.INVISIBLE
         }
+    }
+
+    fun showSubredditSource(show: Boolean) {
+        showSubredditSource = show
+        notifyDataSetChanged()
     }
 
     fun setItems(posts: List<Post>) {

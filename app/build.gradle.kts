@@ -1,3 +1,6 @@
+import deps.android.build.buildToolsVersion
+import deps.android.build.compileSdkVersion
+
 plugins {
     id("com.android.application")
     kotlin("android")
@@ -63,6 +66,7 @@ dependencies {
     implementation(deps.android.androidx.appcompat)
     implementation(deps.android.androidx.corektx)
     implementation(deps.android.androidx.constraintLayout)
+    implementation(deps.android.androidx.swipeToRefresh)
     implementation(deps.android.androidx.material)
     implementation(deps.android.androidx.recyclerView)
     implementation(deps.android.androidx.paging)

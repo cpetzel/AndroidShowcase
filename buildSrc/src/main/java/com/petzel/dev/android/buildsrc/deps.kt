@@ -47,6 +47,7 @@ object deps {
             const val navFragment =
                 "android.arch.navigation:navigation-fragment-ktx:${versions.navigation}"
             const val navUi = "android.arch.navigation:navigation-ui-ktx:${versions.navigation}"
+            const val swipeToRefresh = "androidx.swiperefreshlayout:swiperefreshlayout:${versions.androidxVersion}"
 
             const val room = "androidx.room:room-runtime:${versions.room}"
             const val roomRx = "androidx.room:room-rxjava2:${versions.room}"

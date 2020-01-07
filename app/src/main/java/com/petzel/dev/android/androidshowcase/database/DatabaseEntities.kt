@@ -1,9 +1,11 @@
 package com.petzel.dev.android.androidshowcase.database
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.petzel.dev.android.androidshowcase.domain.Post
 import com.petzel.dev.android.androidshowcase.domain.Subreddit
+import java.util.*
 
 
 /**
@@ -24,13 +26,15 @@ data class DatabasePost(
     val thumbnail: String,
     val subreddit: String,
     val subreddit_id: String,
-    val permalink: String
+    val permalink: String,
+
+    @ColumnInfo(name = "created_at")
+    val createdAt: Date
 )
 
 @Entity
 data class DatabaseSubreddit(
-    @PrimaryKey
-    val name: String
+    @PrimaryKey val name: String
 )
 
 fun String.asSubredditDatabaseModel() = DatabaseSubreddit(name = this)
@@ -51,7 +55,8 @@ fun List<DatabasePost>.asDomainModel(): List<Post> {
             permalink = it.permalink,
             subreddit = it.subreddit,
             description = it.description,
-            thumbnail = it.thumbnail
+            thumbnail = it.thumbnail,
+            createdAt = it.createdAt
         )
     }
 }

@@ -5,12 +5,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 import com.petzel.dev.android.androidshowcase.MainActivity
 import com.petzel.dev.android.androidshowcase.R
 import com.petzel.dev.android.androidshowcase.core.BaseFragment
 import com.petzel.dev.android.androidshowcase.di.PerFragment
 import com.uber.autodispose.ScopeProvider
 import dagger.*
+import kotlinx.android.synthetic.main.fragment_view_subreddit.*
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -79,7 +81,7 @@ class ViewSubredditFragment : BaseFragment() {
         abstract fun viewSubredditPresenter(impl: ViewSubredditPresenterImpl): ViewSubredditPresenter
 
         @Binds
-        abstract fun viewSubredditUi(impl: ViewSubredditUiImpl): ViewSubredditUi
+        abstract fun viewSubredditUi(impl: ViewPostsUiImpl): ViewPostsUi
 
         @Module
         companion object {
@@ -87,6 +89,12 @@ class ViewSubredditFragment : BaseFragment() {
             @Provides
             @JvmStatic
             fun scopeProvider(fragment: BaseFragment): ScopeProvider = fragment.scopeProvider
+
+            @PerFragment
+            @Provides
+            @JvmStatic
+            fun recyclerViewProvider(fragment: BaseFragment): RecyclerView =
+                fragment.activity!!.viewSubredditRecyclerView
         }
     }
 

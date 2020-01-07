@@ -25,8 +25,9 @@ class SubredditsRepository @Inject constructor(
 
     //TODO how do I convert between domain model and database models?
     fun delete(subreddit: Subreddit) {
-        Timber.d("will delete subreddit with name == $subreddit")
+        Timber.d("will delete subreddit with name == $subreddit and remove the posts")
         database.subredditDao.delete(subreddit.name.asSubredditDatabaseModel())
+        database.postDao.deletePostsForSubreddit(subreddit.name)
     }
 
 }

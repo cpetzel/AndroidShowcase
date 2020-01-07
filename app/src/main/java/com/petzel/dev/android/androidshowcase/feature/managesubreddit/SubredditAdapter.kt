@@ -21,7 +21,7 @@ class SubredditAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView
     private val subredditDeleteClicks = PublishSubject.create<Subreddit>()
 
 
-    val subredditClicks: Observable<Subreddit> by lazy { subredditClicks.hide() }
+    val subredditClicks: Observable<Subreddit> by lazy { subredditClicksSubject.hide() }
     private val subredditClicksSubject = PublishSubject.create<Subreddit>()
 
     private val data = mutableListOf<Subreddit>()

@@ -17,11 +17,16 @@ class SelectSubredditPresenterImpl @Inject constructor(
     navigator: Navigator
 ) : SelectSubredditPresenter {
     init {
+
+
         selectSubredditSelectUi.subredditSelectedClicks()
             .observeOn(AndroidSchedulers.mainThread())
             .autoDisposable(scope)
             .subscribe {
                 navigator.goToViewSubreddit(it)
             }
+
+
+
     }
 }

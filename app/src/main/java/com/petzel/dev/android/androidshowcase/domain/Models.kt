@@ -1,5 +1,7 @@
 package com.petzel.dev.android.androidshowcase.domain
 
+import java.util.*
+
 
 /**
  * Domain objects are plain Kotlin data classes that represent the things in our app. These are the
@@ -20,7 +22,8 @@ data class Post(
     val permalink: String,
     val url: String,
     val author: String,
-    val thumbnail: String
+    val thumbnail: String,
+    val createdAt: Date
 ) {
 
     /**

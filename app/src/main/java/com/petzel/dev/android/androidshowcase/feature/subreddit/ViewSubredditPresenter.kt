@@ -11,7 +11,7 @@ import javax.inject.Inject
 interface ViewSubredditPresenter
 
 class ViewSubredditPresenterImpl @Inject constructor(
-    private val ui: ViewSubredditUi,
+    private val ui: ViewPostsUi,
     scopeProvider: ScopeProvider,
     postRepository: PostRepository,
     private val subreddit: String

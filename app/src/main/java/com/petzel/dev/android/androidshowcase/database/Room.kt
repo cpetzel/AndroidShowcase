@@ -3,11 +3,12 @@ package com.petzel.dev.android.androidshowcase.database
 import androidx.room.*
 import com.petzel.dev.android.androidshowcase.domain.Subreddit
 import io.reactivex.Observable
+import java.util.*
 
 @Dao
 interface PostDao {
 
-    @Query("select * from databasepost")
+    @Query("select * from databasepost ORDER BY created_at")
     fun getPosts(): Observable<List<DatabasePost>>
 
     @Query("select * from databasepost WHERE subreddit COLLATE NOCASE = :subreddit")
@@ -15,6 +16,9 @@ interface PostDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(posts: List<DatabasePost>)
+
+    @Query("DELETE FROM databasepost WHERE subreddit COLLATE NOCASE = :subreddit")
+    fun deletePostsForSubreddit(subreddit: String)
 }
 
 @Dao
@@ -31,8 +35,22 @@ interface SubredditDao {
 }
 
 
-@Database(entities = [DatabasePost::class, DatabaseSubreddit::class], version = 3)
+@Database(entities = [DatabasePost::class, DatabaseSubreddit::class], version = 6)
+@TypeConverters(Converters::class)
 abstract class PostsDatabase : RoomDatabase() {
     abstract val postDao: PostDao
     abstract val subredditDao: SubredditDao
+}
+
+
+class Converters {
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        return value?.let { Date(it) }
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return date?.time
+    }
 }

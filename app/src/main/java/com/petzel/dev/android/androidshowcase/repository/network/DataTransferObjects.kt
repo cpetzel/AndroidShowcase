@@ -2,6 +2,7 @@ package com.petzel.dev.android.androidshowcase.repository.network
 
 import com.petzel.dev.android.androidshowcase.database.DatabasePost
 import com.petzel.dev.android.androidshowcase.domain.Post
+import java.util.*
 
 data class SubredditPostsContainer(
     val kind: String, // Listing
@@ -29,7 +30,7 @@ data class WirePost(
         val permalink: String,
         val url: String,
         val num_comments: Int,
-        val created_utc: Int,
+        val created_utc: Long,
         val is_video: Boolean = false
     )
 }
@@ -44,7 +45,8 @@ fun SubredditPostsContainer.asDomainModel(): List<Post> {
             subreddit = it.data.subreddit,
             url = it.data.url,
             thumbnail = it.data.thumbnail,
-            permalink = it.data.permalink
+            permalink = it.data.permalink,
+            createdAt = Date(it.data.created_utc)
         )
     }
 }
@@ -60,7 +62,8 @@ fun SubredditPostsContainer.asDatabaseModel(): List<DatabasePost> {
             url = it.data.url,
             thumbnail = it.data.thumbnail,
             permalink = it.data.permalink,
-            subreddit_id = it.data.subreddit_id
+            subreddit_id = it.data.subreddit_id,
+            createdAt = Date(it.data.created_utc)
         )
     }
 }

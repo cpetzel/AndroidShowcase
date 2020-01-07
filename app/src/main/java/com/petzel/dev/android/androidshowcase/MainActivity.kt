@@ -9,9 +9,11 @@ import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.petzel.dev.android.androidshowcase.core.Navigator
 import com.petzel.dev.android.androidshowcase.core.NavigatorImpl
 import com.petzel.dev.android.androidshowcase.di.PerActivity
+import com.petzel.dev.android.androidshowcase.feature.feed.FeedFragment
 import com.petzel.dev.android.androidshowcase.feature.managesubreddit.ManageSubredditsFragment
 import com.petzel.dev.android.androidshowcase.feature.select.SelectSubredditFragment
 import com.petzel.dev.android.androidshowcase.feature.subreddit.ViewSubredditFragment
@@ -35,6 +37,13 @@ abstract class AppUi(private val activity: FragmentActivity) : Ui {
                 if (show) View.VISIBLE else View.GONE
         } catch (e: Exception) {
             Timber.w("Implement ProgressUi, but did not provide R.id.progressBar of type MaterialProgressBar")
+        }
+
+        try {
+            val refreshLayout = activity.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
+            refreshLayout!!.isRefreshing = show
+        } catch (e: Exception) {
+            Timber.w("Implement ProgressUi, but did not provide R.id.swipeRefresh of type SwipeRefreshLayout")
         }
     }
 
@@ -109,6 +118,7 @@ interface MainActivityComponent {
 
     fun viewSubredditFactory(): ViewSubredditFragment.ViewSubredditFragmentComponent.Factory
     fun selectSubredditFactory(): SelectSubredditFragment.SelectSubredditFragmentComponent.Factory
+    fun feedFactory(): FeedFragment.FeedFragmentComponent.Factory
     fun manageSubredditsFactory(): ManageSubredditsFragment.ManageSubredditsFragmentComponent.Factory
 
     @Subcomponent.Factory

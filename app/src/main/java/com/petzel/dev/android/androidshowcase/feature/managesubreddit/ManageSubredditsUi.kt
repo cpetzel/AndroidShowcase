@@ -9,9 +9,7 @@ import com.petzel.dev.android.androidshowcase.core.rx.clicksThrottle
 import com.petzel.dev.android.androidshowcase.di.PerFragment
 import com.petzel.dev.android.androidshowcase.domain.Subreddit
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_manage_subreddits.*
-import kotlinx.android.synthetic.main.fragment_view_subreddit.recyclerView
 import javax.inject.Inject
 
 
@@ -20,6 +18,8 @@ interface ManageSubredditsUi : Ui {
     fun showSubreddits(subreddits: List<Subreddit>)
     fun subredditsToAdd(): Observable<String>
     fun deleteSubreddits(): Observable<Subreddit>
+
+    fun subredditClicks(): Observable<Subreddit>
 
 }
 
@@ -48,5 +48,7 @@ class ManageSubredditsUiImpl @Inject constructor(
         }.doOnNext {
             activity.manageSubredditEditText.text.clear()
         }
+
+    override fun subredditClicks(): Observable<Subreddit> = subredditAdapter.subredditClicks
 
 }

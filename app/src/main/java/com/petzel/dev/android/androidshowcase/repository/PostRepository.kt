@@ -6,6 +6,7 @@ import com.petzel.dev.android.androidshowcase.domain.Post
 import com.petzel.dev.android.androidshowcase.repository.network.asDatabaseModel
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
@@ -32,18 +33,39 @@ class PostRepository @Inject constructor(
     fun refreshPostsForSubreddit(subreddit: String): Completable {
         Timber.d("refreshPostsForSubreddit")
 
-        return redditApi.postsForSubreddit(subreddit).subscribeOn(Schedulers.io())
+        return redditApi.postsForSubreddit(subreddit)
+            .subscribeOn(Schedulers.io())
             .doOnSubscribe {
                 Timber.d("refreshPostsForSubreddit will refresh posts for subreddit $subreddit")
             }
             .doOnSuccess { posts ->
-                Timber.d("refreshPostsForSubreddit retrieved ${posts.data.children.size} posts... will persist")
+                Timber.d("refreshPostsForSubreddit retrieved ${posts.data.children.size} posts for $subreddit... will persist")
                 database.postDao.insertAll(posts.asDatabaseModel())
                 Timber.d("refreshPostsForSubreddit successfully persisted")
             }
-            .subscribeOn(Schedulers.io())
-            .toCompletable()
+            .ignoreElement()
 
     }
+
+
+    fun refreshAll(): Completable {
+        Timber.d("refreshing ALL subreddits")
+
+        return database.subredditDao.getSubreddits()
+            .subscribeOn(Schedulers.io())
+            .doOnNext {
+                Timber.d("refreshAll retrieved ${it.size} subreddits to refresh")
+            }
+            .firstOrError()
+            .flatMapCompletable {
+                Completable.merge(it.map { subreddit ->
+                    refreshPostsForSubreddit(subreddit.name)
+                })
+            }
+            .doOnComplete {
+                Timber.d("done refreshing ALL subreddits")
+            }
+    }
+
 
 }

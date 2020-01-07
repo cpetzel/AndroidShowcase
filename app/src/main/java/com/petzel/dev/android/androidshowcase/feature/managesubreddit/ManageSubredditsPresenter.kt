@@ -48,9 +48,14 @@ class ManageSubredditsPresenterImpl @Inject constructor(
             .observeOn(Schedulers.io())
             .autoDisposable(scopeProvider)
             .subscribe {
-                //navigator.goToViewSubreddit(it)
-                // add to db
                 subredditsRepository.addSubreddit(it)
             }
+
+        manageSubredditsUi.subredditClicks()
+            .autoDisposable(scopeProvider)
+            .subscribe {
+                navigator.goToViewSubreddit(it.name)
+            }
+
     }
 }
