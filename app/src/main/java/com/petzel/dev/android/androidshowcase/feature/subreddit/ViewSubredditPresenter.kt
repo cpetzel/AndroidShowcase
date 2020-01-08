@@ -1,5 +1,6 @@
 package com.petzel.dev.android.androidshowcase.feature.subreddit
 
+import com.petzel.dev.android.androidshowcase.core.Navigator
 import com.petzel.dev.android.androidshowcase.repository.PostRepository
 import com.uber.autodispose.ScopeProvider
 import com.uber.autodispose.autoDisposable
@@ -15,6 +16,7 @@ class ViewSubredditPresenterImpl @Inject constructor(
     private val ui: ViewPostsUi,
     scopeProvider: ScopeProvider,
     postRepository: PostRepository,
+    navigator: Navigator,
     private val subreddit: String
 ) : ViewSubredditPresenter {
     init {
@@ -70,5 +72,12 @@ class ViewSubredditPresenterImpl @Inject constructor(
             .observeOn(AndroidSchedulers.mainThread())
             .autoDisposable(scopeProvider)
             .subscribe()
+
+        ui.postClicks()
+            .observeOn(AndroidSchedulers.mainThread())
+            .autoDisposable(scopeProvider)
+            .subscribe {
+                navigator.goToViewPost(it)
+            }
     }
 }

@@ -27,6 +27,8 @@ data class DatabasePost(
     val subreddit: String,
     val subreddit_id: String,
     val permalink: String,
+    val post_hint: String?,
+    val selftext: String,
 
     @ColumnInfo(name = "created_at")
     val createdAt: Date
@@ -47,19 +49,23 @@ fun String.asSubredditDatabaseModel() = DatabaseSubreddit(name = this)
 
 fun List<DatabasePost>.asDomainModel(): List<Post> {
     return map {
-        Post(
-            id = it.id,
-            author = it.author,
-            url = it.url,
-            title = it.title,
-            permalink = it.permalink,
-            subreddit = it.subreddit,
-            description = it.description,
-            thumbnail = it.thumbnail,
-            createdAt = it.createdAt
-        )
+        it.asDomainModel()
     }
 }
+
+fun DatabasePost.asDomainModel(): Post = Post(
+    id = this.id,
+    author = this.author,
+    url = this.url,
+    title = this.title,
+    permalink = this.permalink,
+    subreddit = this.subreddit,
+    description = this.description,
+    thumbnail = this.thumbnail,
+    selftext = this.selftext,
+    post_hint = this.post_hint,
+    createdAt = this.createdAt
+)
 
 @JvmName("subredditToDomain")
 fun List<DatabaseSubreddit>.asDomainModel(): List<Subreddit> {

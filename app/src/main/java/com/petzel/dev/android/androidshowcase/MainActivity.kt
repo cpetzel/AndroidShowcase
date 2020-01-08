@@ -18,6 +18,7 @@ import com.petzel.dev.android.androidshowcase.core.TitleProvider
 import com.petzel.dev.android.androidshowcase.di.PerActivity
 import com.petzel.dev.android.androidshowcase.feature.feed.FeedFragment
 import com.petzel.dev.android.androidshowcase.feature.managesubreddit.ManageSubredditsFragment
+import com.petzel.dev.android.androidshowcase.feature.post.PostFragment
 import com.petzel.dev.android.androidshowcase.feature.subreddit.ViewSubredditFragment
 import dagger.Binds
 import dagger.BindsInstance
@@ -163,6 +164,7 @@ interface MainActivityComponent {
     fun viewSubredditFactory(): ViewSubredditFragment.ViewSubredditFragmentComponent.Factory
     fun feedFactory(): FeedFragment.FeedFragmentComponent.Factory
     fun manageSubredditsFactory(): ManageSubredditsFragment.ManageSubredditsFragmentComponent.Factory
+    fun postFactory(): PostFragment.PostFragmentComponent.Factory
 
     @Subcomponent.Factory
     interface Factory {

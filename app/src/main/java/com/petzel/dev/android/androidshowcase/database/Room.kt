@@ -2,10 +2,12 @@ package com.petzel.dev.android.androidshowcase.database
 
 import androidx.room.*
 import io.reactivex.Observable
+import io.reactivex.Single
 import java.util.*
 
 @Dao
 interface PostDao {
+
 
     @Query("select * from databasepost ORDER BY created_at DESC")
     fun getPosts(): Observable<List<DatabasePost>>
@@ -18,6 +20,9 @@ interface PostDao {
 
     @Query("DELETE FROM databasepost WHERE subreddit COLLATE NOCASE = :subreddit")
     fun deletePostsForSubreddit(subreddit: String)
+
+    @Query("select * from databasepost  WHERE id = :postId LIMIT 1")
+    fun getPost(postId: String): Single<DatabasePost>
 }
 
 @Dao
@@ -34,7 +39,7 @@ interface SubredditDao {
 }
 
 
-@Database(entities = [DatabasePost::class, DatabaseSubreddit::class], version = 6)
+@Database(entities = [DatabasePost::class, DatabaseSubreddit::class], version = 8)
 @TypeConverters(Converters::class)
 abstract class PostsDatabase : RoomDatabase() {
     abstract val postDao: PostDao

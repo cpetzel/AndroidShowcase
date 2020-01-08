@@ -28,6 +28,8 @@ data class WirePost(
         val subreddit_id: String,
         val thumbnail: String,
         val permalink: String,
+        val selftext: String,
+        val post_hint: String?,
         val url: String,
         val num_comments: Int,
         val created_utc: Long,
@@ -46,6 +48,8 @@ fun SubredditPostsContainer.asDomainModel(): List<Post> {
             url = it.data.url,
             thumbnail = it.data.thumbnail,
             permalink = it.data.permalink,
+            selftext = it.data.selftext,
+            post_hint = it.data.post_hint,
             createdAt = Date(it.data.created_utc)
         )
     }
@@ -62,6 +66,8 @@ fun SubredditPostsContainer.asDatabaseModel(): List<DatabasePost> {
             url = it.data.url,
             thumbnail = it.data.thumbnail,
             permalink = it.data.permalink,
+            post_hint = it.data.post_hint,
+            selftext = it.data.selftext,
             subreddit_id = it.data.subreddit_id,
             createdAt = Date(it.data.created_utc)
         )

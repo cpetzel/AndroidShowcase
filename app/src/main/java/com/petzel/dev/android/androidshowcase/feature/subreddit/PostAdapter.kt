@@ -38,6 +38,8 @@ class PostAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView.View
 
             if (item.thumbnail.startsWith("http")) {
                 Glide.with(this).load(item.thumbnail).into(postImage)
+            } else {
+                Glide.with(this).clear(postImage)
             }
             postTitle.text = item.title
             postDescription.text = item.description

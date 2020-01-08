@@ -6,6 +6,7 @@ import com.petzel.dev.android.androidshowcase.domain.Post
 import com.petzel.dev.android.androidshowcase.repository.network.asDatabaseModel
 import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
@@ -66,5 +67,15 @@ class PostRepository @Inject constructor(
             }
     }
 
+    fun getPost(postId: String): Single<Post> {
+        Timber.d("getPost $postId")
+
+        return database.postDao.getPost(postId)
+            .subscribeOn(Schedulers.io())
+            .map { it.asDomainModel() }
+
+    }
+
 
 }
+

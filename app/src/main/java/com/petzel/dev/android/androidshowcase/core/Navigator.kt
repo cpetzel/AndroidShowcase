@@ -4,6 +4,7 @@ import androidx.fragment.app.FragmentActivity
 import com.petzel.dev.android.androidshowcase.R
 import com.petzel.dev.android.androidshowcase.di.PerActivity
 import com.petzel.dev.android.androidshowcase.domain.Post
+import com.petzel.dev.android.androidshowcase.feature.post.PostFragment
 import com.petzel.dev.android.androidshowcase.feature.subreddit.ViewSubredditFragment
 import javax.inject.Inject
 
@@ -24,7 +25,11 @@ class NavigatorImpl @Inject constructor(private val fragmentActivity: FragmentAc
             .commit()
     }
 
-    override fun goToViewPost(it: Post) {
-
+    override fun goToViewPost(post: Post) {
+        fragmentActivity.supportFragmentManager
+            .beginTransaction()
+            .add(R.id.fragmentContainer, PostFragment.newInstance(post.id), "POST")
+            .addToBackStack("LIST")
+            .commit()
     }
 }

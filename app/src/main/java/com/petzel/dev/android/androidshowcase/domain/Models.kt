@@ -23,6 +23,8 @@ data class Post(
     val url: String,
     val author: String,
     val thumbnail: String,
+    val selftext: String,
+    val post_hint: String?,
     val createdAt: Date
 ) {
 
