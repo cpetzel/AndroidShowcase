@@ -22,9 +22,14 @@ class FeedFragment : BaseFragment() {
     @Inject
     lateinit var presenter: FeedPresenter
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        retainInstance = true
+    }
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Timber.d("onCreate")
+        Timber.d("onActivityCreated")
         (activity!! as MainActivity).activityComponent!!.feedFactory()
             .create(this).inject(this)
     }
@@ -34,9 +39,9 @@ class FeedFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        Timber.d("onCreateView")
         return inflater.inflate(R.layout.fragment_view_posts, container, false)
     }
-
 
     @Module
     abstract class FeedModule {
@@ -44,10 +49,8 @@ class FeedFragment : BaseFragment() {
         @Binds
         abstract fun feedPresenter(impl: FeedPresenterImpl): FeedPresenter
 
-
         @Binds
         abstract fun feedUi(impl: ViewPostsUiImpl): ViewPostsUi
-
     }
 
     @PerFragment

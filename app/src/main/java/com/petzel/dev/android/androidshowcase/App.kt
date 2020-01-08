@@ -1,14 +1,18 @@
 package com.petzel.dev.android.androidshowcase
 
 import android.app.Application
+import com.facebook.flipper.android.AndroidFlipperClient
 import com.facebook.flipper.android.utils.FlipperUtils
-import com.facebook.flipper.plugins.leakcanary.RecordLeakService
+import com.facebook.flipper.plugins.leakcanary.LeakCanaryFlipperPlugin
 import com.facebook.soloader.SoLoader
 import com.petzel.dev.android.androidshowcase.di.AppComponent
 import com.petzel.dev.android.androidshowcase.di.DaggerAppComponent
-import com.squareup.leakcanary.LeakCanary
 import es.dmoral.toasty.Toasty
 import io.reactivex.plugins.RxJavaPlugins
+import leakcanary.DefaultOnHeapAnalyzedListener
+import leakcanary.LeakCanary
+import leakcanary.OnHeapAnalyzedListener
+import shark.HeapAnalysis
 import timber.log.Timber
 
 class App : Application() {
@@ -20,13 +24,10 @@ class App : Application() {
 
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-            // Leak detector
-            if (LeakCanary.isInAnalyzerProcess(this)) {
-                return
-            }
-            LeakCanary.refWatcher(this)
-                .listenerServiceClass(RecordLeakService::class.java)
-                .buildAndInstall()
+
+            LeakCanary.config = LeakCanary.config.copy(
+                onHeapAnalyzedListener = FlipperAnalyzer()
+            )
         }
 
         appComponent = DaggerAppComponent.factory().create(this)
@@ -47,5 +48,24 @@ class App : Application() {
         SoLoader.init(this, false)
         appComponent.flipperClient().start()
     }
+
+    inner class FlipperAnalyzer : OnHeapAnalyzedListener {
+
+        val defaultListener = DefaultOnHeapAnalyzedListener.create()
+
+        override fun onHeapAnalyzed(heapAnalysis: HeapAnalysis) {
+
+            // Delegate to default behavior (notification and saving result)
+            defaultListener.onHeapAnalyzed(heapAnalysis)
+
+            val client = AndroidFlipperClient.getInstance(this@App)
+
+            if (client != null) {
+                val plugin = client.getPlugin<LeakCanaryFlipperPlugin>("LeakCanary")
+                plugin?.reportLeak(heapAnalysis.toString())
+            }
+        }
+    }
+
 
 }

@@ -24,11 +24,16 @@ class FeedPresenterImpl @Inject constructor(
 ) : FeedPresenter {
     init {
 
+        Timber.d("constructing new FeedPresenterImpl")
+
         ui.showSubredditSource(true)
 
         postRepository.posts
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
+            .doOnDispose {
+                Timber.d("feed posts DAO unsubscribe")
+            }
             .autoDisposable(scopeProvider)
             .subscribe {
                 Timber.d("From DAO (all) got ${it.size} posts")

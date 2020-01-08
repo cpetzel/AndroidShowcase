@@ -42,19 +42,18 @@ class ViewSubredditFragment : BaseFragment() {
         Timber.d("onCreate viewing subreddit fragment with $subreddit")
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        Timber.d("onCreate")
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         (activity!! as MainActivity).activityComponent!!.viewSubredditFactory()
             .create(this, subreddit!!).inject(this)
-
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
+        Timber.d("onCreateView")
         return inflater.inflate(R.layout.fragment_view_posts, container, false)
     }
 

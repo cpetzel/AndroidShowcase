@@ -85,14 +85,15 @@ dependencies {
     implementation(deps.ui.materialProgressBar)
     implementation(deps.rxBinding.core)
 
+    implementation(deps.debug.leakCanaryWatcher)
+
     debugImplementation(deps.chuck.debug)
     debugImplementation(deps.util.flipper.core)
     debugImplementation(deps.util.flipper.flipperSO)
     debugImplementation(deps.util.flipper.flipperNetwork)
-    debugImplementation(deps.debug.leakCanaryDebug)
+    debugImplementation(deps.debug.leakCanary)
     debugImplementation(deps.debug.leakCanaryFlipper)
 
-    releaseImplementation(deps.debug.leakCanaryRelease)
     releaseImplementation(deps.util.flipper.flipperRelease)
     releaseImplementation(deps.chuck.release)
 

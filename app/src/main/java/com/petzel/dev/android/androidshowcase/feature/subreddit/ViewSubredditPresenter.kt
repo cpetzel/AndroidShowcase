@@ -28,7 +28,7 @@ class ViewSubredditPresenterImpl @Inject constructor(
             }
             .autoDisposable(scopeProvider)
             .subscribe {
-                Timber.d("From DAO got ${it.size} posts")
+                Timber.d("From DAO got ${it.size} posts for subreddit $subreddit")
                 ui.showPosts(it)
             }
 

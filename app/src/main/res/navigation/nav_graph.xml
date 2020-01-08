@@ -24,7 +24,7 @@
         android:id="@+id/feed"
         android:name="com.petzel.dev.android.androidshowcase.feature.feed.FeedFragment"
         android:label="All Subreddits"
-        tools:layout="@layout/fragment_view_feed">
+        tools:layout="@layout/fragment_view_posts">
 
         <action
             android:id="@+id/viewSubredditAction"
@@ -36,7 +36,7 @@
         android:id="@+id/viewSubredditFragment"
         android:name="com.petzel.dev.android.androidshowcase.feature.subreddit.ViewSubredditFragment"
         android:label="{subreddit}"
-        tools:layout="@layout/fragment_view_subreddit">
+        tools:layout="@layout/fragment_view_posts">
         <argument
             android:name="subreddit"
             app:argType="string" />
