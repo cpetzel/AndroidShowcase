@@ -13,6 +13,9 @@ import leakcanary.DefaultOnHeapAnalyzedListener
 import leakcanary.LeakCanary
 import leakcanary.OnHeapAnalyzedListener
 import shark.HeapAnalysis
+import shark.HeapAnalysisFailure
+import shark.HeapAnalysisSuccess
+import shark.SharkLog
 import timber.log.Timber
 
 class App : Application() {
@@ -25,6 +28,7 @@ class App : Application() {
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
 
+            SharkLog.logger = null
             LeakCanary.config = LeakCanary.config.copy(
                 onHeapAnalyzedListener = FlipperAnalyzer()
             )
@@ -58,14 +62,14 @@ class App : Application() {
             // Delegate to default behavior (notification and saving result)
             defaultListener.onHeapAnalyzed(heapAnalysis)
 
-            val client = AndroidFlipperClient.getInstance(this@App)
+            if (heapAnalysis is HeapAnalysisSuccess) {
 
-            if (client != null) {
-                val plugin = client.getPlugin<LeakCanaryFlipperPlugin>("LeakCanary")
-                plugin?.reportLeak(heapAnalysis.toString())
+                val client = AndroidFlipperClient.getInstance(this@App)
+                if (client != null) {
+                    val plugin = client.getPlugin<LeakCanaryFlipperPlugin>("LeakCanary")
+                    plugin?.reportLeak(heapAnalysis.toString())
+                }
             }
         }
     }
-
-
 }

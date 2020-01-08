@@ -22,7 +22,6 @@ import com.petzel.dev.android.androidshowcase.feature.subreddit.ViewSubredditFra
 import dagger.*
 import de.mateware.snacky.Snacky
 import kotlinx.android.synthetic.main.activity_main.*
-import me.zhanghai.android.materialprogressbar.MaterialProgressBar
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -34,12 +33,6 @@ interface Ui {
 
 abstract class AppUi(private val fragmentRootView: View) : Ui {
     override fun showProgress(show: Boolean) {
-        try {
-            fragmentRootView.findViewById<MaterialProgressBar>(R.id.progressBar).visibility =
-                if (show) View.VISIBLE else View.GONE
-        } catch (e: Exception) {
-            Timber.w("Implement ProgressUi, but did not provide R.id.progressBar of type MaterialProgressBar")
-        }
 
         try {
             val refreshLayout = fragmentRootView.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)

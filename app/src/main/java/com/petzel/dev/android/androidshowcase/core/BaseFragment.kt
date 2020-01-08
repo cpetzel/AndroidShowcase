@@ -41,21 +41,21 @@ abstract class BaseFragment : Fragment(), LifecycleScopeProvider<CustomScopeEven
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Timber.tag(javaClass.simpleName).d("onCreate")
+        Timber.tag(javaClass.simpleName).i("onCreate")
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        Timber.tag(javaClass.simpleName).d("onAttach")
+        Timber.tag(javaClass.simpleName).i("onAttach")
     }
 
     override fun onStart() {
         super.onStart()
-        Timber.tag(javaClass.simpleName).d("onStart")
+        Timber.tag(javaClass.simpleName).i("onStart")
     }
 
     override fun onStop() {
-        Timber.tag(javaClass.simpleName).d("onStop")
+        Timber.tag(javaClass.simpleName).i("onStop")
         super.onStop()
     }
 
@@ -64,25 +64,25 @@ abstract class BaseFragment : Fragment(), LifecycleScopeProvider<CustomScopeEven
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        Timber.tag(javaClass.simpleName).d("onCreateView")
+        Timber.tag(javaClass.simpleName).i("onCreateView")
         return super.onCreateView(inflater, container, savedInstanceState)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.tag(javaClass.simpleName).d("onViewCreated")
+        Timber.tag(javaClass.simpleName).i("onViewCreated")
         lifecycleEvents.onNext(CustomScopeEvent.ATTACH)
     }
 
     override fun onDestroyView() {
-        Timber.tag(javaClass.simpleName).d("onDestroyView")
+        Timber.tag(javaClass.simpleName).i("onDestroyView")
         lifecycleEvents.onNext(CustomScopeEvent.DETACH)
         super.onDestroyView()
     }
 
 
     override fun onDestroy() {
-        Timber.tag(javaClass.simpleName).d("onDestroy")
+        Timber.tag(javaClass.simpleName).i("onDestroy")
         super.onDestroy()
     }
 }
