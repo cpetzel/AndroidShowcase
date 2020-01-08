@@ -7,10 +7,10 @@ import java.util.*
 @Dao
 interface PostDao {
 
-    @Query("select * from databasepost ORDER BY created_at")
+    @Query("select * from databasepost ORDER BY created_at DESC")
     fun getPosts(): Observable<List<DatabasePost>>
 
-    @Query("select * from databasepost WHERE subreddit COLLATE NOCASE = :subreddit")
+    @Query("select * from databasepost WHERE subreddit COLLATE NOCASE = :subreddit ORDER BY created_at DESC")
     fun getPosts(subreddit: String): Observable<List<DatabasePost>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

@@ -4,16 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.RecyclerView
 import com.petzel.dev.android.androidshowcase.MainActivity
 import com.petzel.dev.android.androidshowcase.R
 import com.petzel.dev.android.androidshowcase.core.BaseFragment
+import com.petzel.dev.android.androidshowcase.di.FragmentModule
 import com.petzel.dev.android.androidshowcase.di.PerFragment
 import com.petzel.dev.android.androidshowcase.feature.subreddit.ViewPostsUi
 import com.petzel.dev.android.androidshowcase.feature.subreddit.ViewPostsUiImpl
-import com.uber.autodispose.ScopeProvider
-import dagger.*
-import kotlinx.android.synthetic.main.fragment_view_feed.*
+import dagger.Binds
+import dagger.BindsInstance
+import dagger.Module
+import dagger.Subcomponent
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -33,7 +34,7 @@ class FeedFragment : BaseFragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_view_feed, container, false)
+        return inflater.inflate(R.layout.fragment_view_posts, container, false)
     }
 
 
@@ -47,23 +48,11 @@ class FeedFragment : BaseFragment() {
         @Binds
         abstract fun feedUi(impl: ViewPostsUiImpl): ViewPostsUi
 
-        @Module
-        companion object {
-            @PerFragment
-            @Provides
-            @JvmStatic
-            fun scopeProvider(fragment: BaseFragment): ScopeProvider = fragment.scopeProvider
-
-            @PerFragment
-            @Provides
-            @JvmStatic
-            fun recyclerViewProvider(fragment: BaseFragment): RecyclerView = fragment.activity!!.feedRecyclerView
-        }
     }
 
     @PerFragment
     @Subcomponent(
-        modules = [FeedModule::class]
+        modules = [FeedModule::class, FragmentModule::class]
     )
     interface FeedFragmentComponent {
         @Subcomponent.Factory

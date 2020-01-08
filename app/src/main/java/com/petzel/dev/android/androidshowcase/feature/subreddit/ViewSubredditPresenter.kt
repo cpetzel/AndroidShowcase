@@ -6,6 +6,7 @@ import com.uber.autodispose.autoDisposable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 interface ViewSubredditPresenter
@@ -45,6 +46,28 @@ class ViewSubredditPresenterImpl @Inject constructor(
             .doOnComplete {
                 ui.showProgress(false)
             }
+            .autoDisposable(scopeProvider)
+            .subscribe()
+
+        ui.refreshPosts()
+            .flatMapCompletable {
+                postRepository.refreshPostsForSubreddit(subreddit)
+                    .doOnSubscribe {
+                        Timber.d("refreshing $subreddit")
+                        ui.showProgress(true)
+                    }
+                    .timeout(10, TimeUnit.SECONDS)
+                    .doOnError {
+                        Timber.e(it)
+                        ui.snackError(it.message!!)
+                    }
+                    .onErrorComplete()
+                    .doOnComplete {
+                        Timber.d("done refreshing $subreddit")
+                        ui.showProgress(false)
+                    }
+            }
+            .observeOn(AndroidSchedulers.mainThread())
             .autoDisposable(scopeProvider)
             .subscribe()
     }

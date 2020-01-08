@@ -1,38 +1,43 @@
 package com.petzel.dev.android.androidshowcase.feature.managesubreddit
 
-import androidx.fragment.app.FragmentActivity
+import android.view.View
+import android.widget.Button
+import android.widget.EditText
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.petzel.dev.android.androidshowcase.AppUi
+import com.petzel.dev.android.androidshowcase.R
 import com.petzel.dev.android.androidshowcase.Ui
 import com.petzel.dev.android.androidshowcase.core.rx.clicksThrottle
 import com.petzel.dev.android.androidshowcase.di.PerFragment
 import com.petzel.dev.android.androidshowcase.domain.Subreddit
+import com.petzel.dev.android.androidshowcase.getActivity
 import io.reactivex.Observable
-import kotlinx.android.synthetic.main.fragment_manage_subreddits.*
 import javax.inject.Inject
 
 
 interface ManageSubredditsUi : Ui {
-
     fun showSubreddits(subreddits: List<Subreddit>)
     fun subredditsToAdd(): Observable<String>
     fun deleteSubreddits(): Observable<Subreddit>
-
     fun subredditClicks(): Observable<Subreddit>
-
 }
 
 @PerFragment
 class ManageSubredditsUiImpl @Inject constructor(
-    private val activity: FragmentActivity,
+    rootView: View,
     private val subredditAdapter: SubredditAdapter
-) : AppUi(activity), ManageSubredditsUi {
+) : AppUi(rootView), ManageSubredditsUi {
+
+    private val addButton = rootView.findViewById<Button>(R.id.manageSubredditAdd)
+    private val subredditInput = rootView.findViewById<EditText>(R.id.manageSubredditEditText)
 
     init {
-        activity.recyclerView.layoutManager = LinearLayoutManager(activity)
-        activity.recyclerView.itemAnimator = DefaultItemAnimator()
-        activity.recyclerView.adapter = subredditAdapter
+        val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(rootView.context.getActivity())
+        recyclerView.itemAnimator = DefaultItemAnimator()
+        recyclerView.adapter = subredditAdapter
     }
 
     override fun showSubreddits(subreddits: List<Subreddit>) {
@@ -43,10 +48,10 @@ class ManageSubredditsUiImpl @Inject constructor(
         subredditAdapter.deleteSubredditClicks
 
     override fun subredditsToAdd(): Observable<String> =
-        activity.manageSubredditAdd.clicksThrottle().map {
-            activity.manageSubredditEditText.text.toString().toLowerCase().trim()
+        addButton.clicksThrottle().map {
+            subredditInput.text.toString().toLowerCase().trim()
         }.doOnNext {
-            activity.manageSubredditEditText.text.clear()
+            subredditInput.text.clear()
         }
 
     override fun subredditClicks(): Observable<Subreddit> = subredditAdapter.subredditClicks

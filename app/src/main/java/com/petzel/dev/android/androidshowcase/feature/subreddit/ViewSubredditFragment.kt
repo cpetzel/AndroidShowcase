@@ -5,14 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.RecyclerView
 import com.petzel.dev.android.androidshowcase.MainActivity
 import com.petzel.dev.android.androidshowcase.R
 import com.petzel.dev.android.androidshowcase.core.BaseFragment
+import com.petzel.dev.android.androidshowcase.di.FragmentModule
 import com.petzel.dev.android.androidshowcase.di.PerFragment
-import com.uber.autodispose.ScopeProvider
-import dagger.*
-import kotlinx.android.synthetic.main.fragment_view_subreddit.*
+import dagger.Binds
+import dagger.BindsInstance
+import dagger.Module
+import dagger.Subcomponent
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -54,7 +55,7 @@ class ViewSubredditFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_view_subreddit, container, false)
+        return inflater.inflate(R.layout.fragment_view_posts, container, false)
     }
 
     companion object {
@@ -83,24 +84,11 @@ class ViewSubredditFragment : BaseFragment() {
         @Binds
         abstract fun viewSubredditUi(impl: ViewPostsUiImpl): ViewPostsUi
 
-        @Module
-        companion object {
-            @PerFragment
-            @Provides
-            @JvmStatic
-            fun scopeProvider(fragment: BaseFragment): ScopeProvider = fragment.scopeProvider
-
-            @PerFragment
-            @Provides
-            @JvmStatic
-            fun recyclerViewProvider(fragment: BaseFragment): RecyclerView =
-                fragment.activity!!.viewSubredditRecyclerView
-        }
     }
 
     @PerFragment
     @Subcomponent(
-        modules = [ViewSubredditModule::class]
+        modules = [ViewSubredditModule::class, FragmentModule::class]
     )
     interface ViewSubredditFragmentComponent {
         @Subcomponent.Factory

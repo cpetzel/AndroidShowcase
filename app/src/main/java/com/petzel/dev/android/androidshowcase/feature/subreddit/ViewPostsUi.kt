@@ -1,15 +1,17 @@
 package com.petzel.dev.android.androidshowcase.feature.subreddit
 
-import androidx.fragment.app.FragmentActivity
+import android.view.View
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.petzel.dev.android.androidshowcase.AppUi
+import com.petzel.dev.android.androidshowcase.R
 import com.petzel.dev.android.androidshowcase.Ui
 import com.petzel.dev.android.androidshowcase.domain.Post
+import com.petzel.dev.android.androidshowcase.getActivity
 import io.reactivex.Observable
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.fragment_view_feed.*
 import javax.inject.Inject
 
 interface ViewPostsUi : Ui {
@@ -20,20 +22,21 @@ interface ViewPostsUi : Ui {
 }
 
 open class ViewPostsUiImpl @Inject constructor(
-    activity: FragmentActivity,
-    private val postAdapter: PostAdapter,
-    recyclerView: RecyclerView
-) : AppUi(activity), ViewPostsUi {
+    rootView: View,
+    private val postAdapter: PostAdapter
+) : AppUi(rootView), ViewPostsUi {
 
     val refreshSubject = PublishSubject.create<Boolean>()
 
-
     init {
-        recyclerView.layoutManager = LinearLayoutManager(activity)
+        val recyclerView = rootView.findViewById<RecyclerView>(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(rootView.context.getActivity())
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = postAdapter
 
-        activity.swipeRefresh.setOnRefreshListener {
+        val swipeRefreshLayout = rootView.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
+
+        swipeRefreshLayout.setOnRefreshListener {
             refreshSubject.onNext(true)
         }
     }

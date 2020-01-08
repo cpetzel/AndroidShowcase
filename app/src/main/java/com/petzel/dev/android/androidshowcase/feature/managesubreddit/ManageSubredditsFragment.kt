@@ -7,9 +7,12 @@ import android.view.ViewGroup
 import com.petzel.dev.android.androidshowcase.MainActivity
 import com.petzel.dev.android.androidshowcase.R
 import com.petzel.dev.android.androidshowcase.core.BaseFragment
+import com.petzel.dev.android.androidshowcase.di.FragmentModule
 import com.petzel.dev.android.androidshowcase.di.PerFragment
-import com.uber.autodispose.ScopeProvider
-import dagger.*
+import dagger.Binds
+import dagger.BindsInstance
+import dagger.Module
+import dagger.Subcomponent
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -43,18 +46,11 @@ class ManageSubredditsFragment : BaseFragment() {
         @Binds
         abstract fun manageSubredditsUi(impl: ManageSubredditsUiImpl): ManageSubredditsUi
 
-        @Module
-        companion object {
-            @PerFragment
-            @Provides
-            @JvmStatic
-            fun scopeProvider(fragment: BaseFragment): ScopeProvider = fragment.scopeProvider
-        }
     }
 
     @PerFragment
     @Subcomponent(
-        modules = [ManageSubredditsModule::class]
+        modules = [ManageSubredditsModule::class, FragmentModule::class]
     )
     interface ManageSubredditsFragmentComponent {
         @Subcomponent.Factory

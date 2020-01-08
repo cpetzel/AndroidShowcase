@@ -35,7 +35,10 @@ class PostAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView.View
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val item = data[position]
         with(holder.itemView) {
-            Glide.with(this).load(item.thumbnail).into(postImage)
+
+            if (item.thumbnail.startsWith("http")) {
+                Glide.with(this).load(item.thumbnail).into(postImage)
+            }
             postTitle.text = item.title
             postDescription.text = item.description
             postSubreddit.text = "/r/${item.subreddit}"

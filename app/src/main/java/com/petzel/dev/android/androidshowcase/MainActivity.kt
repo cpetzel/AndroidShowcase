@@ -1,5 +1,8 @@
 package com.petzel.dev.android.androidshowcase
 
+import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -15,7 +18,6 @@ import com.petzel.dev.android.androidshowcase.core.NavigatorImpl
 import com.petzel.dev.android.androidshowcase.di.PerActivity
 import com.petzel.dev.android.androidshowcase.feature.feed.FeedFragment
 import com.petzel.dev.android.androidshowcase.feature.managesubreddit.ManageSubredditsFragment
-import com.petzel.dev.android.androidshowcase.feature.select.SelectSubredditFragment
 import com.petzel.dev.android.androidshowcase.feature.subreddit.ViewSubredditFragment
 import dagger.*
 import de.mateware.snacky.Snacky
@@ -30,17 +32,17 @@ interface Ui {
     fun snackInfo(message: String)
 }
 
-abstract class AppUi(private val activity: FragmentActivity) : Ui {
+abstract class AppUi(private val fragmentRootView: View) : Ui {
     override fun showProgress(show: Boolean) {
         try {
-            activity.findViewById<MaterialProgressBar>(R.id.progressBar).visibility =
+            fragmentRootView.findViewById<MaterialProgressBar>(R.id.progressBar).visibility =
                 if (show) View.VISIBLE else View.GONE
         } catch (e: Exception) {
             Timber.w("Implement ProgressUi, but did not provide R.id.progressBar of type MaterialProgressBar")
         }
 
         try {
-            val refreshLayout = activity.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
+            val refreshLayout = fragmentRootView.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
             refreshLayout!!.isRefreshing = show
         } catch (e: Exception) {
             Timber.w("Implement ProgressUi, but did not provide R.id.swipeRefresh of type SwipeRefreshLayout")
@@ -48,11 +50,13 @@ abstract class AppUi(private val activity: FragmentActivity) : Ui {
     }
 
     override fun snackError(message: String) {
-        Snacky.builder().setActivity(activity).setText(message).error().show()
+        Snacky.builder().setActivity(fragmentRootView.context.getActivity()).setText(message)
+            .error().show()
     }
 
     override fun snackInfo(message: String) {
-        Snacky.builder().setActivity(activity).setText(message).info().show()
+        Snacky.builder().setActivity(fragmentRootView.context.getActivity()).setText(message).info()
+            .show()
     }
 }
 
@@ -117,7 +121,6 @@ interface MainActivityComponent {
 
 
     fun viewSubredditFactory(): ViewSubredditFragment.ViewSubredditFragmentComponent.Factory
-    fun selectSubredditFactory(): SelectSubredditFragment.SelectSubredditFragmentComponent.Factory
     fun feedFactory(): FeedFragment.FeedFragmentComponent.Factory
     fun manageSubredditsFactory(): ManageSubredditsFragment.ManageSubredditsFragmentComponent.Factory
 
@@ -130,3 +133,20 @@ interface MainActivityComponent {
 
     fun inject(activity: MainActivity)
 }
+
+tailrec fun Context?.getActivity(): Activity? = when (this) {
+    is Activity -> this
+    else -> (this as? ContextWrapper)?.baseContext?.getActivity()
+}
+
+/*
+fun View.getActivity(): Activity? {
+    var context = context
+    while (context is ContextWrapper) {
+        if (context is Activity) {
+            return context
+        }
+        context = context.baseContext
+    }
+    return null
+}*/
