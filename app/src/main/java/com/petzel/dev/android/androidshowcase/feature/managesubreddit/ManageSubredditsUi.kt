@@ -1,8 +1,10 @@
 package com.petzel.dev.android.androidshowcase.feature.managesubreddit
 
+import android.view.Gravity
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,6 +29,7 @@ interface ManageSubredditsUi : Ui {
 @PerFragment
 class ManageSubredditsUiImpl @Inject constructor(
     rootView: View,
+    private val drawerLayout: DrawerLayout,
     private val subredditAdapter: SubredditAdapter
 ) : AppUi(rootView), ManageSubredditsUi {
 
@@ -54,6 +57,9 @@ class ManageSubredditsUiImpl @Inject constructor(
             subredditInput.text.clear()
         }
 
-    override fun subredditClicks(): Observable<Subreddit> = subredditAdapter.subredditClicks
+    override fun subredditClicks(): Observable<Subreddit> =
+        subredditAdapter.subredditClicks.doOnNext {
+            drawerLayout.closeDrawer(Gravity.START)
+        }
 
 }

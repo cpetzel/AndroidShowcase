@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import com.petzel.dev.android.androidshowcase.MainActivity
 import com.petzel.dev.android.androidshowcase.R
 import com.petzel.dev.android.androidshowcase.core.BaseFragment
+import com.petzel.dev.android.androidshowcase.core.TitleProvider
 import com.petzel.dev.android.androidshowcase.di.FragmentModule
 import com.petzel.dev.android.androidshowcase.di.PerFragment
 import com.petzel.dev.android.androidshowcase.feature.subreddit.ViewPostsUi
@@ -18,9 +19,12 @@ import dagger.Subcomponent
 import timber.log.Timber
 import javax.inject.Inject
 
-class FeedFragment : BaseFragment() {
+class FeedFragment : BaseFragment(), TitleProvider {
     @Inject
     lateinit var presenter: FeedPresenter
+
+    override val title: String?
+        get() = "Feed"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,7 +33,6 @@ class FeedFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        Timber.d("onActivityCreated")
         (activity!! as MainActivity).activityComponent!!.feedFactory()
             .create(this).inject(this)
     }
@@ -42,6 +45,7 @@ class FeedFragment : BaseFragment() {
         Timber.d("onCreateView")
         return inflater.inflate(R.layout.fragment_view_posts, container, false)
     }
+
 
     @Module
     abstract class FeedModule {

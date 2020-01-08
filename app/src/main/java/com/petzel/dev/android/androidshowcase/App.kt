@@ -13,7 +13,6 @@ import leakcanary.DefaultOnHeapAnalyzedListener
 import leakcanary.LeakCanary
 import leakcanary.OnHeapAnalyzedListener
 import shark.HeapAnalysis
-import shark.HeapAnalysisFailure
 import shark.HeapAnalysisSuccess
 import shark.SharkLog
 import timber.log.Timber

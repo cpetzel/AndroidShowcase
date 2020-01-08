@@ -34,7 +34,7 @@ open class ViewPostsUiImpl @Inject constructor(
         recyclerView.itemAnimator = DefaultItemAnimator()
         recyclerView.adapter = postAdapter
 
-        val swipeRefreshLayout = rootView.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
+        val swipeRefreshLayout = rootView as SwipeRefreshLayout
 
         swipeRefreshLayout.setOnRefreshListener {
             refreshSubject.onNext(true)

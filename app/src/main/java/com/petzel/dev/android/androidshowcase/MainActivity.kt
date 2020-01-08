@@ -4,26 +4,28 @@ import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
 import android.os.Bundle
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentActivity
-import androidx.navigation.NavController
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.petzel.dev.android.androidshowcase.core.Navigator
 import com.petzel.dev.android.androidshowcase.core.NavigatorImpl
+import com.petzel.dev.android.androidshowcase.core.TitleProvider
 import com.petzel.dev.android.androidshowcase.di.PerActivity
 import com.petzel.dev.android.androidshowcase.feature.feed.FeedFragment
 import com.petzel.dev.android.androidshowcase.feature.managesubreddit.ManageSubredditsFragment
 import com.petzel.dev.android.androidshowcase.feature.subreddit.ViewSubredditFragment
-import dagger.*
+import dagger.Binds
+import dagger.BindsInstance
+import dagger.Module
+import dagger.Subcomponent
 import de.mateware.snacky.Snacky
-import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
-import javax.inject.Inject
+
 
 interface Ui {
     fun showProgress(show: Boolean)
@@ -33,7 +35,6 @@ interface Ui {
 
 abstract class AppUi(private val fragmentRootView: View) : Ui {
     override fun showProgress(show: Boolean) {
-
         try {
             val refreshLayout = fragmentRootView.findViewById<SwipeRefreshLayout>(R.id.swipeRefresh)
             refreshLayout!!.isRefreshing = show
@@ -55,34 +56,89 @@ abstract class AppUi(private val fragmentRootView: View) : Ui {
 
 class MainActivity : AppCompatActivity() {
 
+
     var activityComponent: MainActivityComponent? = null
 
-    @Inject
-    lateinit var navController: NavController
+    val toolbar: Toolbar by lazy {
+        findViewById<Toolbar>(R.id.toolbar)
+    }
+    val drawerLayout by lazy { findViewById<DrawerLayout>(R.id.drawerLayout) }
+
+    val drawerToggle: ActionBarDrawerToggle by lazy {
+        ActionBarDrawerToggle(
+            this,
+            drawerLayout,
+            android.R.string.copy,
+            android.R.string.cancel
+        )
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        activityComponent =
-            (application as App).appComponent.mainActivityComponentFactory().create(this)
-
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        activityComponent =
+            (application as App).appComponent.mainActivityComponentFactory()
+                .create(this, drawerLayout)
+
+        setupToolbar()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true
+        }
+
+        if (item.itemId == android.R.id.home) {
+            onBackPressed()
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
         super.onPostCreate(savedInstanceState)
         activityComponent!!.inject(this)
-        findViewById<Toolbar>(R.id.toolbar)
-            .setupWithNavController(
-                navController,
-                AppBarConfiguration(navController.graph, drawerLayout)
-            )
+
+        supportFragmentManager.beginTransaction()
+            .add(R.id.fragmentContainer, FeedFragment(), "FEED").commit()
     }
+
 
     override fun onDestroy() {
         activityComponent = null
         super.onDestroy()
     }
 
+    fun setupToolbar() {
+
+        setSupportActionBar(toolbar)
+        drawerLayout.addDrawerListener(drawerToggle)
+        drawerToggle.syncState()
+
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setHomeButtonEnabled(true)
+
+        supportFragmentManager.addOnBackStackChangedListener {
+
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.fragmentContainer)
+            if (currentFragment is TitleProvider) {
+                currentFragment.title?.let {
+                    supportActionBar?.title = it
+                }
+            }
+
+            if (supportFragmentManager.backStackEntryCount > 0) {
+                //show back button
+                supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+                drawerToggle.isDrawerIndicatorEnabled = false
+            } else {
+                drawerToggle.isDrawerIndicatorEnabled = true
+            }
+        }
+    }
 }
 
 @Module
@@ -91,14 +147,6 @@ abstract class NavigationModule {
     @Binds
     abstract fun navigator(impl: NavigatorImpl): Navigator
 
-    @Module
-    companion object {
-        @PerActivity
-        @Provides
-        @JvmStatic
-        fun navController(activity: FragmentActivity): NavController =
-            activity.findNavController(R.id.my_nav_host_fragment)
-    }
 }
 
 @PerActivity
@@ -112,7 +160,6 @@ interface MainActivityComponent {
 
     fun activity(): FragmentActivity
 
-
     fun viewSubredditFactory(): ViewSubredditFragment.ViewSubredditFragmentComponent.Factory
     fun feedFactory(): FeedFragment.FeedFragmentComponent.Factory
     fun manageSubredditsFactory(): ManageSubredditsFragment.ManageSubredditsFragmentComponent.Factory
@@ -120,7 +167,8 @@ interface MainActivityComponent {
     @Subcomponent.Factory
     interface Factory {
         fun create(
-            @BindsInstance activity: FragmentActivity
+            @BindsInstance activity: FragmentActivity,
+            @BindsInstance drawerLayout: DrawerLayout
         ): MainActivityComponent
     }
 
@@ -131,15 +179,3 @@ tailrec fun Context?.getActivity(): Activity? = when (this) {
     is Activity -> this
     else -> (this as? ContextWrapper)?.baseContext?.getActivity()
 }
-
-/*
-fun View.getActivity(): Activity? {
-    var context = context
-    while (context is ContextWrapper) {
-        if (context is Activity) {
-            return context
-        }
-        context = context.baseContext
-    }
-    return null
-}*/

@@ -1,6 +1,5 @@
 package com.petzel.dev.android.androidshowcase.feature.managesubreddit
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -28,15 +27,9 @@ class ManageSubredditsFragment : BaseFragment() {
             .create(this).inject(this)
     }
 
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         Timber.d("onViewCreated")
-
     }
 
     override fun onCreateView(

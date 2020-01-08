@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.petzel.dev.android.androidshowcase.MainActivity
 import com.petzel.dev.android.androidshowcase.R
 import com.petzel.dev.android.androidshowcase.core.BaseFragment
+import com.petzel.dev.android.androidshowcase.core.TitleProvider
 import com.petzel.dev.android.androidshowcase.di.FragmentModule
 import com.petzel.dev.android.androidshowcase.di.PerFragment
 import dagger.Binds
@@ -27,12 +28,15 @@ private const val ARG_SUBREDDIT = "subreddit"
  * Use the [ViewSubredditFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
-class ViewSubredditFragment : BaseFragment() {
+class ViewSubredditFragment : BaseFragment(), TitleProvider {
 
     @Inject
     lateinit var presenter: ViewSubredditPresenter
 
     private var subreddit: String? = null
+
+    override val title: String?
+        get() = subreddit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

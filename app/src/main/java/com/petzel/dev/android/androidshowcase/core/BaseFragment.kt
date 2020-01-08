@@ -22,7 +22,13 @@ import timber.log.Timber
  * Ideally, I can remove support for this, and have the scope live as long as the fragment is alive (where its view is retained)
  */
 
-abstract class BaseFragment : Fragment(), LifecycleScopeProvider<CustomScopeEvent> {
+interface TitleProvider {
+    val title: String?
+}
+
+
+abstract class BaseFragment : Fragment(),
+    LifecycleScopeProvider<CustomScopeEvent> {
 
     val scopeProvider: LifecycleScopeProvider<CustomScopeEvent> by lazy { this }
 
@@ -42,6 +48,11 @@ abstract class BaseFragment : Fragment(), LifecycleScopeProvider<CustomScopeEven
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Timber.tag(javaClass.simpleName).i("onCreate")
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+        Timber.tag(javaClass.simpleName).i("onActivityCreated")
     }
 
     override fun onAttach(context: Context) {
@@ -85,4 +96,6 @@ abstract class BaseFragment : Fragment(), LifecycleScopeProvider<CustomScopeEven
         Timber.tag(javaClass.simpleName).i("onDestroy")
         super.onDestroy()
     }
+
+
 }
