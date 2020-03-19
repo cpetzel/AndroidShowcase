@@ -54,6 +54,5 @@ class ManageSubredditsPresenterImpl @Inject constructor(
             .subscribe {
                 navigator.goToViewSubreddit(it.name)
             }
-
     }
 }

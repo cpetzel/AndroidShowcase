@@ -57,7 +57,6 @@ abstract class AppUi(private val fragmentRootView: View) : Ui {
 
 class MainActivity : AppCompatActivity() {
 
-
     var activityComponent: MainActivityComponent? = null
 
     val toolbar: Toolbar by lazy {
@@ -73,7 +72,6 @@ class MainActivity : AppCompatActivity() {
             android.R.string.cancel
         )
     }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,12 +101,15 @@ class MainActivity : AppCompatActivity() {
         super.onPostCreate(savedInstanceState)
         activityComponent!!.inject(this)
 
-        supportFragmentManager.beginTransaction()
-            .add(R.id.fragmentContainer, FeedFragment(), "FEED").commit()
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .add(R.id.fragmentContainer, FeedFragment(), "FEED").commit()
+        }
     }
 
 
     override fun onDestroy() {
+        Timber.d("onDestroy")
         activityComponent = null
         super.onDestroy()
     }

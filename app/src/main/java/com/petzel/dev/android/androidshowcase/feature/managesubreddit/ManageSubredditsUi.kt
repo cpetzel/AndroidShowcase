@@ -61,5 +61,4 @@ class ManageSubredditsUiImpl @Inject constructor(
         subredditAdapter.subredditClicks.doOnNext {
             drawerLayout.closeDrawer(Gravity.START)
         }
-
 }

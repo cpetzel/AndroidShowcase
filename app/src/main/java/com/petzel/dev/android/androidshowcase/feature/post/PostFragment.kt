@@ -18,7 +18,6 @@ import javax.inject.Inject
 
 private const val ARG_POST_ID = "post_id"
 
-
 class PostFragment : BaseFragment() {
 
     @Inject
