@@ -4,7 +4,9 @@ import com.petzel.dev.android.androidshowcase.database.PostsDatabase
 import com.petzel.dev.android.androidshowcase.database.asDomainModel
 import com.petzel.dev.android.androidshowcase.database.asSubredditDatabaseModel
 import com.petzel.dev.android.androidshowcase.domain.Subreddit
+import io.reactivex.Completable
 import io.reactivex.Observable
+import io.reactivex.schedulers.Schedulers
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -24,10 +26,13 @@ class SubredditsRepository @Inject constructor(
         database.subredditDao.insertSubreddit(name.asSubredditDatabaseModel())
 
     //TODO how do I convert between domain model and database models?
-    fun delete(subreddit: Subreddit) {
+    fun delete(subreddit: Subreddit): Completable {
         Timber.d("will delete subreddit with name == $subreddit and remove the posts")
-        database.subredditDao.delete(subreddit.name.asSubredditDatabaseModel())
-        database.postDao.deletePostsForSubreddit(subreddit.name)
+        return Completable.mergeArray(
+            database.subredditDao.delete(subreddit.name.asSubredditDatabaseModel()),
+            database.postDao.deletePostsForSubreddit(subreddit.name)
+        )
+            .subscribeOn(Schedulers.io())
     }
 
 }

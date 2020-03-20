@@ -1,5 +1,6 @@
 import deps.android.build.buildToolsVersion
 import deps.android.build.compileSdkVersion
+import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 plugins {
     id("com.android.application")
@@ -12,6 +13,11 @@ plugins {
 android {
     compileSdkVersion(deps.android.build.compileSdkVersion)
     buildToolsVersion(deps.android.build.buildToolsVersion)
+
+
+    (kotlinOptions as KotlinJvmOptions).apply {
+        jvmTarget = JavaVersion.VERSION_1_8.toString()
+    }
 
     defaultConfig {
         applicationId = "com.petzel.dev.android.androidshowcase"
@@ -84,6 +90,9 @@ dependencies {
     implementation(deps.ui.glide)
     implementation(deps.ui.materialProgressBar)
     implementation(deps.rxBinding.core)
+
+    implementation(deps.workflow.core)
+    implementation(deps.workflow.rx)
 
     implementation(deps.debug.leakCanaryWatcher)
 

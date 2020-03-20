@@ -39,7 +39,7 @@
 
         <fragment
             android:id="@+id/drawerFragment"
-            android:name="com.petzel.dev.android.androidshowcase.feature.managesubreddit.ManageSubredditsFragment"
+            android:name="com.petzel.dev.android.androidshowcase.feature.managesubreddit.workflow.ManageSubredditsWorkflowFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </com.google.android.material.navigation.NavigationView>

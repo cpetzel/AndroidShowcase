@@ -1,6 +1,7 @@
 package com.petzel.dev.android.androidshowcase.database
 
 import androidx.room.*
+import io.reactivex.Completable
 import io.reactivex.Observable
 import io.reactivex.Single
 import java.util.*
@@ -19,7 +20,7 @@ interface PostDao {
     fun insertAll(posts: List<DatabasePost>)
 
     @Query("DELETE FROM databasepost WHERE subreddit COLLATE NOCASE = :subreddit")
-    fun deletePostsForSubreddit(subreddit: String)
+    fun deletePostsForSubreddit(subreddit: String): Completable
 
     @Query("select * from databasepost  WHERE id = :postId LIMIT 1")
     fun getPost(postId: String): Single<DatabasePost>
@@ -32,10 +33,10 @@ interface SubredditDao {
     fun getSubreddits(): Observable<List<DatabaseSubreddit>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    fun insertSubreddit(subreddit: DatabaseSubreddit)
+    fun insertSubreddit(subreddit: DatabaseSubreddit): Completable
 
     @Delete
-    fun delete(subreddit: DatabaseSubreddit)
+    fun delete(subreddit: DatabaseSubreddit): Completable
 }
 
 

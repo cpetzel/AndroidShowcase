@@ -18,6 +18,7 @@ import com.petzel.dev.android.androidshowcase.core.TitleProvider
 import com.petzel.dev.android.androidshowcase.di.PerActivity
 import com.petzel.dev.android.androidshowcase.feature.feed.FeedFragment
 import com.petzel.dev.android.androidshowcase.feature.managesubreddit.ManageSubredditsFragment
+import com.petzel.dev.android.androidshowcase.feature.managesubreddit.workflow.ManageSubredditsWorkflowFragment
 import com.petzel.dev.android.androidshowcase.feature.post.PostFragment
 import com.petzel.dev.android.androidshowcase.feature.subreddit.ViewSubredditFragment
 import dagger.Binds
@@ -176,6 +177,7 @@ interface MainActivityComponent {
     }
 
     fun inject(activity: MainActivity)
+    fun inject(manageSubredditsWorkflowFragment: ManageSubredditsWorkflowFragment)
 }
 
 tailrec fun Context?.getActivity(): Activity? = when (this) {

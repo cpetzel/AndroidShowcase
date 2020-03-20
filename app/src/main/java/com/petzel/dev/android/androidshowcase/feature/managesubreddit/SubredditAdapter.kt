@@ -18,8 +18,6 @@ class SubredditAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView
 
     val deleteSubredditClicks: Observable<Subreddit> by lazy { subredditDeleteClicks.hide() }
     private val subredditDeleteClicks = PublishSubject.create<Subreddit>()
-
-
     val subredditClicks: Observable<Subreddit> by lazy { subredditClicksSubject.hide() }
     private val subredditClicksSubject = PublishSubject.create<Subreddit>()
 
@@ -57,16 +55,19 @@ class SubredditAdapter @Inject constructor() : RecyclerView.Adapter<RecyclerView
         diffResult.dispatchUpdatesTo(this)
     }
 
+    var onDeleteClickListener: ((Subreddit) -> Unit)? = null
+    var onSubredditClickListener: ((String) -> Unit)? = null
+
     inner class SubredditListViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         init {
             itemView.subredditDelete.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    subredditDeleteClicks.onNext(data[adapterPosition])
+                    onDeleteClickListener?.invoke(data[adapterPosition])
                 }
             }
             itemView.setOnClickListener {
                 if (adapterPosition != RecyclerView.NO_POSITION) {
-                    subredditClicksSubject.onNext(data[adapterPosition])
+                    onSubredditClickListener?.invoke(data[adapterPosition].name)
                 }
             }
         }
