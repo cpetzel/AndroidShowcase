@@ -84,6 +84,12 @@ object deps {
             "androidx.navigation:navigation-safe-args-gradle-plugin:${versions.navAgrs}"
     }
 
+    object workflow {
+        const val core = "com.squareup.workflow:workflow-ui-core-android:0.23+"
+        const val rx = "com.squareup.workflow:workflow-rx2:0.23+"
+        const val backstack = "com.squareup.workflow:workflow-ui-backstack-android:0.23+"
+    }
+
     object dagger {
         const val core = "com.google.dagger:dagger:${versions.dagger}"
     }

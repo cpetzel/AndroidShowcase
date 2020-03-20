@@ -6,7 +6,6 @@ import com.petzel.dev.android.androidshowcase.R
 import com.petzel.dev.android.androidshowcase.di.PerActivity
 import com.petzel.dev.android.androidshowcase.domain.Post
 import com.petzel.dev.android.androidshowcase.feature.post.PostFragment
-import com.petzel.dev.android.androidshowcase.feature.snake.SnakeFragment
 import com.petzel.dev.android.androidshowcase.feature.subreddit.ViewSubredditFragment
 import javax.inject.Inject
 
